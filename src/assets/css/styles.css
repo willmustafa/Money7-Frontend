@@ -18,9 +18,6 @@
 
     --linear-background: linear-gradient(87deg,#172b4d,#1a174d);
     --linear-background-header: linear-gradient(87deg,#11cdef,#1171ef);
-
-    --color-nubank: rgb(130, 10, 209);
-    --color-c6bank: black;
 }
 
 /* Base */
@@ -112,6 +109,14 @@ label {
     background-color: white;
 }
 
+.card-footer-full-width{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2rem;
+    bottom: 0;
+}
+
 /* Utilities */
 .mt-n-7{
     margin-top: -6rem !important;
@@ -132,14 +137,6 @@ label {
 /* Color */
 .bg-gradient-default {
     background: var(--linear-background);
-}
-
-.bg-nubank{
-    background: var(--color-nubank)
-}
-
-.bg-c6bank{
-    background: var(--color-c6bank)
 }
 
 /* Animations */
@@ -163,22 +160,4 @@ label {
         transform: translate(-20px, 0);
         opacity: 0;
     }
-}
-
-
-
-/* ICONS */
-.custom-icon::after{
-    position: relative;
-    height: 2rem;
-    width: 2rem;
-    display: flex;
-}
-
-.icon-nubank::after{
-    content: url('../img/icons/brand/nubank.svg');
-}
-
-.icon-c6bank::after{
-    content: url('../img/icons/brand/c6bank.svg');
 }

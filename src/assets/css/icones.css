@@ -1,0 +1,96 @@
+/* Color */
+.bg-nubank,
+.bg-nuinvest{
+    background: rgb(130, 10, 209);
+}
+
+.bg-c6bank{
+    background: black;
+}
+
+.bg-itau{
+    background: #ec7600;
+}
+
+.bg-santander{
+    background: #cc250d;
+}
+
+.bg-caixa{
+    background: #006BAE;
+}
+
+.bg-bb{
+    background: #f2e600;
+}
+
+.bg-bradesco{
+    background: #c10325;
+}
+
+.bg-sicredi,
+.bg-sicoob,
+.bg-inter,
+.bg-pagbank{
+    background: white;
+}
+
+/* ICONS */
+.custom-icon::after{
+    position: relative;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+}
+
+.icon-nubank::after{
+    content: url('../img/icons/brand/nubank.svg');
+}
+
+.icon-c6bank::after{
+    content: url('../img/icons/brand/c6bank.svg');
+}
+
+.icon-itau::after{
+    content: url('../img/icons/brand/itau.png');
+}
+
+.icon-santander::after{
+    content: url('../img/icons/brand/santander.svg');
+}
+
+.icon-caixa::after{
+    content: url('../img/icons/brand/caixa.png');
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+.icon-bb::after{
+    content: url('../img/icons/brand/bb.png');
+}
+
+.icon-bradesco::after{
+    content: url('../img/icons/brand/bradesco.png');
+}
+
+.icon-nuinvest::after{
+    content: url('../img/icons/brand/nuinvest.png');
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+.icon-sicredi::after{
+    content: url('../img/icons/brand/sicredi.png');
+}
+
+.icon-sicoob::after{
+    content: url('../img/icons/brand/sicoob.png');
+}
+
+.icon-inter::after{
+    content: url('../img/icons/brand/inter.png');
+}
+
+.icon-pagbank::after{
+    content: url('../img/icons/brand/pagbank.png');
+}

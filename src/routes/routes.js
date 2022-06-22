@@ -1,14 +1,15 @@
-import CartoesView from 'views/CartoesView';
-import CategoriasView from 'views/CategoriasView';
-import ContasView from 'views/ContasView';
-import MainView from 'views/MainView';
-import LoginView from 'views/LoginView';
-import ObjetivosView from 'views/ObjetivosView';
-import TransacoesView from 'views/TransacoesView';
-import DashboardView from 'views/DashboardView';
-import NotFoundView from 'views/NotFoundView';
-import { isAuthenticated } from 'context/loginContext';
-import UserView from 'views/UserView';
+import CartoesView from '../views/CartoesView';
+import CategoriasView from '../views/CategoriasView';
+import ContasView from '../views/ContasView';
+import MainView from '../views/MainView';
+import LoginView from '../views/LoginView';
+import ObjetivosView from '../views/ObjetivosView';
+import TransacoesView from '../views/TransacoesView';
+import DashboardView from '../views/DashboardView';
+import NotFoundView from '../views/NotFoundView';
+import { isAuthenticated } from '../context/loginContext';
+import UserView from '../views/UserView';
+import TestView from '../views/TestView';
 
 export const routesArray = [
     {
@@ -62,6 +63,12 @@ export const routesArray = [
                 name: "User",
                 icon: 'tags',
                 element: <UserView />
+            },
+            {
+                path: "test",
+                name: "Test",
+                icon: 'tags',
+                element: <TestView />
             }
         ]
     },

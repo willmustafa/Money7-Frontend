@@ -20,6 +20,8 @@ const TestView = () => {
                 max='1222'
                 cartao
                 onClick={() => setOpenModal(true)}
+                footerLeft="Fatura Aberta"
+                footerRigth="Vencimento: 16/04"
                 />
                 <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
                     <CartaoForm 

@@ -5,7 +5,7 @@ import { currency_formatter_abs } from '../../../../utils/ValueUtils'
 
 const ProgressBar = props => {
     return (
-        <Row className={`${props.className} ${props.cartao ? "mb-5" : ""}`}>
+        <Row className={`${props.className} ${props.cartao ? "mb-4" : ""}`}>
             <Col>
                 <Progress 
                     {...Array(props).map(({className, ...rest}) => rest)[0]}

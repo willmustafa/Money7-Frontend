@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Card from './Base/Card/Card'
 import ProgressIconTitle from './ProgressIconTitle'
+import { Col } from 'reactstrap'
 
 const CardProgressIconTitle = props => {
     return (
@@ -9,9 +10,16 @@ const CardProgressIconTitle = props => {
             <ProgressIconTitle 
             {...props}
             />
-            <div className='bg-nubank card-footer-full-width'>
-                fatura aberta
-            </div>
+            {(props.footerLeft || props.footerRigth) ? (
+                <div className='bg-nubank card-footer-full-width'>
+                    <Col md='4'>
+                    Fatura Aberta
+                    </Col>
+                    <Col className='ms-auto text-end'>
+                    Vencimento: 14/06
+                    </Col>
+                </div>
+            ) : ""}
         </Card>
     )
 }
@@ -27,7 +35,9 @@ CardProgressIconTitle.propTypes = {
     cardClassName: PropTypes.string,
     /** Function of onClick in the Card */
     onClick: PropTypes.func,
-    cartao: PropTypes.bool
+    cartao: PropTypes.bool,
+    footerLeft: PropTypes.string,
+    footerRigth: PropTypes.string
 }
 
 export default CardProgressIconTitle

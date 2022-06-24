@@ -17,7 +17,8 @@ const TestView = () => {
                 smallTitle='banco'
                 icon='icon-caixa'
                 bgColor='bg-caixa'
-                max='1222'
+                value={0}
+                max={1220}
                 cartao
                 onClick={() => setOpenModal(true)}
                 footerLeft="Fatura Aberta"
@@ -25,11 +26,11 @@ const TestView = () => {
                 />
                 <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
                     <CartaoForm 
-                      title='Caixa'
-                      smallTitle='banco'
-                      icon='icon-caixa'
-                      bgColor='bg-caixa'
-                      max='1222'
+                      id_cartao={2}
+                      id_conta={1}
+                      fechamento={12}
+                      vencimento={20}
+                      limite={2800}
                     />
                 </Modal>
             </Col>

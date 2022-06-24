@@ -13,5 +13,5 @@ export const apiPath = {
     login: "/users/login",
     contas: "/contas/",
     NEWcontas: "/contas/new",
-    instituicoes: "/contas/instituicoes"
+    instituicoes: "/instituicoes"
 }

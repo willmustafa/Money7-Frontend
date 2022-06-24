@@ -22,9 +22,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <StrictMode>
+  <React.Fragment>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>
+  </React.Fragment>
 );

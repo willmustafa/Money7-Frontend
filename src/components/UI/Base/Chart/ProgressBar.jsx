@@ -5,10 +5,10 @@ import { currency_formatter_abs } from '../../../../utils/ValueUtils'
 
 const ProgressBar = props => {
     return (
-        <Row className={`${props.className} ${props.cartao ? "mb-4" : ""}`}>
+        <Row className={`${props.className} ${(props.cartao) ? "mb-4" : ""}`}>
             <Col>
                 <Progress 
-                    {...Array(props).map(({className, ...rest}) => rest)[0]}
+                    {...Array(props).map(({className, cartao, ...rest}) => rest)[0]}
                 />
                 <h5 className='mt-2'>
                     {props.cartao ? "Limite: " : ""}{currency_formatter_abs(props.value)} de {currency_formatter_abs(props.max)}
@@ -31,7 +31,11 @@ ProgressBar.propTypes = {
     striped: PropTypes.bool,
     /** Background color (bg-*) */
     color: PropTypes.string,
-    cartao: PropTypes.bool
+    cartao: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.bool,
+        PropTypes.string
+    ])
 }
 
 ProgressBar.defaultProps = {

@@ -11,14 +11,14 @@ const CartoesView = () => {
     const {date} = useDate()
 
     const [dados, setDados] = useState([{
-        id_cartao: 1,
-        cartao: "",
-        limite: 0,
-        vencimento: 1,
+        id_cartao: 3,
+        limite: 1000,
+        vencimento: 8,
+        fechamento: 15,
         instituicao: {
-            nome: "",
-            cor: "",
-            icone: "plus"
+            nome: "NuBank",
+            cor: "bg-nubank",
+            icone: "icon-nubank"
         }
     }])
     
@@ -52,17 +52,20 @@ const CartoesView = () => {
 
 const CartaoInfo = props => {
     const [openModal, setOpenModal] = useState(false)
-
     return (
         <Col xl="4" md="12" className='mb-md-4'>
             <CardProgressIconTitle
-            cardClassName={"flex-row align-items-center"}
-            title={props.apelido ? props.apelido : props.cartao}
-            smallTitle={props.cartao}
-            icon={props.instituicao.icone}
-            bgColor={props.instituicao.cor}
-            max={props.limite}
-            onClick={() => setOpenModal(true)}
+                cardClassName={"flex-row align-items-center"}
+                title={props.instituicao.nome}
+                smallTitle='Cartão'
+                icon={props.instituicao.icone}
+                bgColor={props.instituicao.cor}
+                value={0}
+                max={props.limite}
+                cartao
+                onClick={() => setOpenModal(true)}
+                footerLeft="Fatura Aberta"
+                footerRigth={`Vencimento: ${props.fechamento}/04`}
             />
             <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
                 <CartaoForm {...props} />

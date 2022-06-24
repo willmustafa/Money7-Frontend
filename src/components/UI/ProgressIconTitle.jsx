@@ -19,7 +19,11 @@ ProgressIconTitle.propTypes = {
     title: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
-    cartao: PropTypes.bool
+    cartao: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.bool,
+        PropTypes.string
+    ])
 }
 
 export default ProgressIconTitle

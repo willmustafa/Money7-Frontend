@@ -13,10 +13,10 @@ const CardProgressIconTitle = props => {
             {(props.footerLeft || props.footerRigth) ? (
                 <div className='bg-nubank card-footer-full-width'>
                     <Col md='4'>
-                    Fatura Aberta
+                    {props.footerLeft}
                     </Col>
                     <Col className='ms-auto text-end'>
-                    Vencimento: 14/06
+                    {props.footerRigth}
                     </Col>
                 </div>
             ) : ""}

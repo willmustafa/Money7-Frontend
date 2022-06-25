@@ -4,7 +4,7 @@ export const apiPath = {
     balancoMensal: "/transacoesFiltradas/balancoMensal",
     despesasCategoria: "/transacoesFiltradas/despesaCategoria",
     receitasCategoria: "/transacoesFiltradas/receitaCategoria",
-    minhasContas: "/contas/saldoAtualPrevisto",
+    minhasContas: "/contasFiltradas/saldoAtualPrevisto",
     objetivos: "/objetivos/",
     pendencias: "/transacoesFiltradas/pendencias",
     cartoes: "/cartoes",

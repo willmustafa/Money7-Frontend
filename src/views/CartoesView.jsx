@@ -6,6 +6,7 @@ import CartaoForm from '../model/Forms/CartaoForm'
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext';
+import axios from 'axios'
 
 const CartoesView = () => {
     const {date} = useDate()
@@ -23,9 +24,8 @@ const CartoesView = () => {
     }])
     
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.cartoes}`)
-            .then(res => res.json())
-            .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.cartoes}`)
+            .then(res => setDados(res.data))
             .catch(err => console.error(err))
     }, [date])
     

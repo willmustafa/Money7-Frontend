@@ -11,7 +11,12 @@ const IconTitle = props => {
             </Col>
             <Col>
                 <h6 className={`text-uppercase ls-1 mb-1`}>{props.smallTitle}</h6>
-                <h3 className={`mb-0`}>{props.title}</h3>
+                <Row>
+                    <h3 className={`col mb-0`}>{props.title}</h3>
+                    {props.dataConclusao ? (
+                        <h5 className='col ms-auto mb-0 text-end'>Concluir: {props.dataConclusao}</h5>
+                    ) : ''}
+                </Row>
             </Col>
         </Row>
     )
@@ -24,7 +29,8 @@ IconTitle.propTypes = {
     bgColor: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     /** ClassName to the icon */
-    className: PropTypes.string
+    className: PropTypes.string,
+    dataConclusao: PropTypes.string
 }
 
 export default IconTitle

@@ -1,6 +1,7 @@
 import { apiPath } from '../../controller/apiPath'
 import React, { useEffect, useState } from 'react'
 import { Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
+import axios from 'axios'
 
 const TransacaoForm = () => {
     const [categorias, setCategorias] = useState([{
@@ -23,16 +24,14 @@ const TransacaoForm = () => {
     }])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.categoriasCompletas}`)
-        .then(res => res.json())
-        .then(res => setCategorias(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.categoriasCompletas}`)
+        .then(res => setCategorias(res.data))
         .catch(err => console.error(err))
     },[])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.contas}`)
-        .then(res => res.json())
-        .then(res => setContas(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.contas}`)
+        .then(res => setContas(res.data))
         .catch(err => console.error(err))
     },[])
 

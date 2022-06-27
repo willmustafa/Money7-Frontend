@@ -13,6 +13,7 @@ const ObjetivoForm = props => {
     const [objetivo, setObjetivo] = useState(props.titulo)
     const [valor, setValor] = useState(props.valor_total)
     const [id_categoria, setIdCategoria] = useState(props.id_categoria ? props.id_categoria : 1)
+    const [description, setDescription] = useState(props.description ? props.description : '')
     const [categorias, setCategorias] = useState([{
         id_categoria: 1,
         nome: "",
@@ -33,6 +34,7 @@ const ObjetivoForm = props => {
             method: id_objetivo !== 0 ? (exclude ? 'DELETE' : 'PUT'): 'POST',
             url:`${process.env.REACT_APP_API_URL}${apiPath.objetivos}/${id_objetivo !== 0 ? id_objetivo : ''}`,
             data: {
+                description,
                 titulo: objetivo,
                 valor,
                 date,
@@ -82,6 +84,12 @@ const ObjetivoForm = props => {
                         <FormGroup>
                             <Label>Valor</Label>
                             <Input placeholder="0,00" type="number" value={valor} onChange={(e)=>setValor(e.target.value)}  />
+                        </FormGroup>
+                    </Col>
+                    <Col lg="12">
+                        <FormGroup>
+                            <Label>Anotações</Label>
+                            <Input type='textarea' name='description' value={description} onChange={e=>setDescription(e.target.value)} />
                         </FormGroup>
                     </Col>
                 </Row>

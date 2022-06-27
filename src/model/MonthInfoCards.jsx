@@ -3,6 +3,7 @@ import { Col, Container, Row } from 'reactstrap'
 import InfoCard from '../components/UI/Base/Card/InfoCard/InfoCard'
 import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const MonthInfoCards = () => {
     const {date} = useDate()
@@ -14,12 +15,10 @@ const MonthInfoCards = () => {
         receita_perc_last: 0,
         despesa_perc_last: 0
     })
-    console.log(dados)
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.somaMensal}?date=${(new Date(date)).toISOString()}`)
-            .then(res => res.json())
-            .then(res => setDados(res[0]))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.somaMensal}?date=${(new Date(date)).toISOString()}`)
+            .then(res => setDados(res.data[0]))
             .catch(err => console.error(err))
     }, [date])
 

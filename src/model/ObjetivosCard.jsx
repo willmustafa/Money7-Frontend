@@ -3,6 +3,7 @@ import ProgressIconTitle from '../components/UI/ProgressIconTitle'
 import Card from '../components/UI/Base/Card/Card'
 import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const ObjetivosCard = props => {
     const {date} = useDate()
@@ -21,9 +22,8 @@ const ObjetivosCard = props => {
     }])
     
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}?date=${(new Date(date)).toISOString()}`)
-        .then(res => res.json())
-        .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}?date=${(new Date(date)).toISOString()}`)
+        .then(res => setDados(res.data))
         .catch(err => console.error(err))
     }, [date])
     

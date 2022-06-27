@@ -3,6 +3,7 @@ import Card from '../components/UI/Base/Card/Card'
 import { apiPath } from '../controller/apiPath'
 import React, { useEffect, useState } from 'react'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const ReceitaDespesaCard = () => {
   const {date} = useDate()
@@ -13,9 +14,8 @@ const ReceitaDespesaCard = () => {
   }])
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}${apiPath.gastosReceitasMensal}?date=${(new Date(date)).toISOString()}`)
-    .then(res => res.json())
-    .then(res => setDados(res))
+    axios.get(`${process.env.REACT_APP_API_URL}${apiPath.gastosReceitasMensal}?date=${(new Date(date)).toISOString()}`)
+    .then(res => setDados(res.data))
     .catch(err => console.error(err))
   }, [date])
 

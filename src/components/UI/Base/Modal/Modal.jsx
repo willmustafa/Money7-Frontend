@@ -1,17 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal as ModalBs, ModalHeader, ModalBody } from 'reactstrap'
-import { fetchData } from '../../../../controller/fetch'
-import { getToken } from '../../../../context/loginContext'
 
 const Modal = props => {
-  
-  function handleSubmit(event, values, apiPath){
-    event.preventDefault()
-    
-    fetchData(apiPath, values, getToken()).then(res => props.setOpenModal(!props.openModal))
-  }
-
     return (
       <ModalBs
           centered
@@ -25,7 +16,6 @@ const Modal = props => {
         </ModalHeader>
         <ModalBody>
           {React.Children.map(props.children, child => React.cloneElement(child, {
-            onSubmit: handleSubmit, 
             closeModal: () => props.setOpenModal(!props.openModal)
             }))}
         </ModalBody>

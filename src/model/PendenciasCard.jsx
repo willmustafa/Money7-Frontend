@@ -4,6 +4,7 @@ import { Col } from 'reactstrap'
 import { currency_formatter } from '../utils/ValueUtils'
 import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const Pendencias = () => {
     const {date} = useDate()
@@ -13,9 +14,8 @@ const Pendencias = () => {
     }])
   
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.pendencias}?date=${(new Date(date)).toISOString()}`)
-        .then(res => res.json())
-        .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.pendencias}?date=${(new Date(date)).toISOString()}`)
+        .then(res => setDados(res.data))
         .catch(err => console.error(err))
     }, [date])
     

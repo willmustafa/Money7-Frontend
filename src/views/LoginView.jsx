@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, Input, Label } from 'reactstrap'
-import { fetchData } from '../controller/fetch';
 import { Navigate } from 'react-router-dom'
 import { isAuthenticated, login } from '../context/loginContext';
 import { apiPath } from '../controller/apiPath';
@@ -12,7 +11,7 @@ const LoginView = () => {
 
     function handleLogin(event){
         event.preventDefault()
-        fetchData(apiPath.login, {email, password}, {}).then(res => login(res.token, res.name, res.email, res.id)).then(() => setAuth(true));
+        // fetchData(apiPath.login, {email, password}, {}).then(res => login(res.token, res.name, res.email, res.id)).then(() => setAuth(true));
     }    
 
     return (

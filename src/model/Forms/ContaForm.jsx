@@ -29,16 +29,14 @@ const ContaForm = props => {
     }])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.instituicoes}`)
-        .then(res => res.json())
-        .then(res => setInstituicao(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.instituicoes}`)
+        .then(res => setInstituicao(res.data))
         .catch(err => console.error(err))
     },[])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.contas}/${id_conta !== 0 ? id_conta : ''}`)
-        .then(res => res.json())
-        .then(res => setConta(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.contas}/${id_conta !== 0 ? id_conta : ''}`)
+        .then(res => setConta(res.data))
         .catch(err => console.error(err))
     },[])
 

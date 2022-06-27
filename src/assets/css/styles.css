@@ -124,6 +124,10 @@ label {
     display: flex;
 }
 
+tbody tr{
+    vertical-align: middle;
+}
+
 
 .custom-radios div {
     display: inline-block;

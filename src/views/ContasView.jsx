@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { currency_formatter } from '../utils/ValueUtils'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const ContasView = () => {
     const {date} = useDate()
@@ -22,9 +23,8 @@ const ContasView = () => {
     }])
     
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.minhasContas}?date=${(new Date(date)).toISOString()}`)
-            .then(res => res.json())
-            .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.minhasContas}?date=${(new Date(date)).toISOString()}`)
+            .then(res => setDados(res.data))
             .catch(err => console.error(err))
     }, [date])
     

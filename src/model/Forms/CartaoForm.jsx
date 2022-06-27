@@ -31,16 +31,14 @@ const CartaoForm = props => {
     }])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.cartoes}`)
-        .then(res => res.json())
-        .then(res => setCartao(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.cartoes}`)
+        .then(res => setCartao(res.data))
         .catch(err => console.error(err))
     },[])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.instituicoes}`)
-        .then(res => res.json())
-        .then(res => setInstituicao(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.instituicoes}`)
+        .then(res => setInstituicao(res.data))
         .catch(err => console.error(err))
     },[])
 

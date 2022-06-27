@@ -5,6 +5,7 @@ import IconTitle from '../components/UI/Base/Icon/IconTitle'
 import { currency_formatter } from '../utils/ValueUtils'
 import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const ContasCard = () => {
     const {date} = useDate()
@@ -20,9 +21,8 @@ const ContasCard = () => {
     }])
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.minhasContas}?date=${(new Date(date)).toISOString()}`)
-        .then(res => res.json())
-        .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.minhasContas}?date=${(new Date(date)).toISOString()}`)
+        .then(res => setDados(res.data))
         .catch(err => console.error(err))
     }, [date])
 

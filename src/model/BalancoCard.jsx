@@ -3,6 +3,7 @@ import Card from '../components/UI/Base/Card/Card'
 import Line from '../components/Charts/Line/Line'
 import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext';
+import axios from 'axios';
 
 const BalancoCard = props => {
     const {date} = useDate()
@@ -12,9 +13,8 @@ const BalancoCard = props => {
     }])
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.balancoMensal}?date=${(new Date(date)).toISOString()}`)
-            .then(res => res.json())
-            .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.balancoMensal}?date=${(new Date(date)).toISOString()}`)
+            .then(res => setDados(res.data))
             .catch(err => console.error(err))
     }, [date])
 

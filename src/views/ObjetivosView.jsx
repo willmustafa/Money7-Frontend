@@ -6,6 +6,7 @@ import ObjetivoForm from '../model/Forms/ObjetivoForm'
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext'
+import axios from 'axios'
 
 const ObjetivosView = () => {
     const {date} = useDate()
@@ -26,9 +27,8 @@ const ObjetivosView = () => {
     }])   
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}?date=${(new Date(date)).toISOString()}`)
-        .then(res => res.json())
-        .then(res => setDados(res))
+        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}?date=${(new Date(date)).toISOString()}`)
+        .then(res => setDados(res.data))
         .catch(err => console.error(err))
     }, [date])
     return (
@@ -55,6 +55,18 @@ const ObjetivosView = () => {
 const ObjetivosCard = item => {
     const [openModal, setOpenModal] = useState(false)
 
+    function precisaEconomizar(atual, final, data){
+        const diff = final - atual
+        let diffMonth = (new Date(data).getMonth()) - (new Date().getMonth())
+        let stringSucesso = `Você deve economizar R$ ${Number.parseFloat(diff/diffMonth).toFixed(2)} por mês.`
+        
+        if(diffMonth <= 0){
+            return 'Objetivo finalizado.'
+        }
+
+        return stringSucesso
+    }
+
     return (
         <Col xl="4" md="12" className='mb-md-4'>
             <CardProgressIconTitle
@@ -64,8 +76,11 @@ const ObjetivosCard = item => {
                     bgColor={item.cor}
                     value={item.saldo_atual}
                     max={item.valor_total}
+                    dataConclusao={new Date(item.date).toLocaleDateString('pt-br')}
                     cardClassName="flex-row align-items-center"
                     onClick={() => setOpenModal(true)}
+                    cartao
+                    footerLeft={`${precisaEconomizar(item.saldo_atual, item.valor_total, item.date)}`}
                     />
             <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Objetivo"}>
                 <ObjetivoForm {...item} />

@@ -58,18 +58,6 @@ export const routesArray = [
                 icon: 'tags',
                 element: <CategoriasView />
             },
-            {
-                path: "user",
-                name: "User",
-                icon: 'tags',
-                element: <UserView />
-            },
-            {
-                path: "test",
-                name: "Test",
-                icon: 'tags',
-                element: <TestView />
-            }
         ]
     },
     {

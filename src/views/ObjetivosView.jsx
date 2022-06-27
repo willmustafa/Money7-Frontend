@@ -12,19 +12,21 @@ const ObjetivosView = () => {
 
     const [dados, setDados] = useState([{
         id_objetivo: 1,
-        titulo: "",
-        cor: "",
-        icone: "plus",
-        valor_total: 0,
-        date: "",
+        titulo: "Viagem Japão",
+        cor: "bg-success",
+        icone: "plane",
+        valor_total: 10000,
+        date: "2022-05-27",
+        saldo_atual: 10000,
         categoria: {
-            nome: "",
+            nome: "Viagem",
             cor: "bg-info",
             icone: "plane"
         }
-  }])    
+    }])   
+
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}`)
+        fetch(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}?date=${(new Date(date)).toISOString()}`)
         .then(res => res.json())
         .then(res => setDados(res))
         .catch(err => console.error(err))
@@ -58,9 +60,9 @@ const ObjetivosCard = item => {
             <CardProgressIconTitle
                     title={item.titulo}
                     smallTitle={item.categoria.nome}
-                    icon={item.icone}
+                    icon={item.categoria.icone}
                     bgColor={item.cor}
-                    value={item.valor_atual}
+                    value={item.saldo_atual}
                     max={item.valor_total}
                     cardClassName="flex-row align-items-center"
                     onClick={() => setOpenModal(true)}

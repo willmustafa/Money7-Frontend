@@ -15,9 +15,9 @@ const MainView = () => {
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
 
-  useEffect(() => {
-    if (location !== displayLocation) setTransistionStage("fadeOut");
-  }, [location, displayLocation]);
+  // useEffect(() => {
+  //   if (location !== displayLocation) setTransistionStage("fadeOut");
+  // }, [location, displayLocation]);
 
   return (
     <DateProvider>
@@ -26,12 +26,13 @@ const MainView = () => {
         <div className='d-flex flex-column w-100 position-relative'>
           <Header />
           <div className={`${transitionStage} main`}
-              onAnimationEnd={() => {
-              if (transitionStage === "fadeOut") {
-                setTransistionStage("fadeIn");
-                setDisplayLocation(location);
-              }
-            }}>
+            //   onAnimationEnd={() => {
+            //   if (transitionStage === "fadeOut") {
+            //     setTransistionStage("fadeIn");
+            //     setDisplayLocation(location);
+            //   }
+            // }}
+            >
                 <ToastContainer />
                 <Outlet />
             </div>

@@ -4,8 +4,14 @@ import { useDate } from '../context/dateContext'
 import { apiPath } from '../controller/apiPath'
 import EditableTable from '../components/UI/Base/Table/EditableTable'
 import { currency_formatter } from '../utils/ValueUtils'
+import axios from 'axios'
+import { Table } from 'reactstrap'
+import RoundIcon from '../components/UI/Base/Icon/RoundIcon'
+import Modal from '../components/UI/Base/Modal/Modal'
+import TransacaoForm from './Forms/TransacaoForm'
 
 const TransacoesCard = () => {
+  const [openModal, setOpenModal] = useState(false)
   const [dados, setDados] = useState([{
     id: 1,
     valor: -50,
@@ -17,7 +23,6 @@ const TransacoesCard = () => {
         icone: "plane"
     },
     conta: {
-        apelido: null,
         instituicao: {
             nome: "Dinheiro",
             cor: "bg-success",
@@ -26,54 +31,61 @@ const TransacoesCard = () => {
     }
   }])
   const {date} = useDate()
-
-  const column = [
-    {
-        Header: "id",
-        accessor: "id"
-    },
-    {
-        Header: "date",
-        accessor: "date",
-        Cell: (({value}) => {return (new Date(value).toLocaleDateString('pt-BR'))})
-    },
-    {
-        Header: "descricao",
-        accessor: "descricao"
-    },
-    {
-        Header: "categoria",
-        accessor: "categoria_nome"
-    },
-    {
-        Header: "conta",
-        accessor: "conta_nome"
-    },
-    {
-        Header: "valor",
-        accessor: "valor",
-        Cell: (({value}) => {return currency_formatter(value)})
-    }
-  ]
-
+  const [rowData, setRowData] = useState({})
   useEffect(()=>{
-    fetch(`${process.env.REACT_APP_API_URL}${apiPath.categoriasCompletas}`)
-    .then(res => res.json())
-    .then(res => setDados(
-      res.map(el => {
-        const elRes = {...(({categoria, conta, ...o}) => o)(el), 
-        categoria_nome: el.categoria.nome,
-        conta_nome: el.conta.instituicao.nome
-      }
-        return elRes
-    })))
+    axios.get(`${process.env.REACT_APP_API_URL}${apiPath.transacoes}`)
+    .then(res => setDados(res.data))
     .catch(err => console.error(err))
   },[date])
 
+  function editRow(event){
+    const eventCell = Array.from(event.currentTarget.cells).map(item=>item.dataset.value)
+    const rowInfo = {
+      id: eventCell[0],
+      date: eventCell[1],
+      descricao: eventCell[2],
+      categoria: eventCell[3],
+      conta: eventCell[4],
+      valor: eventCell[5]
+    }
+    setRowData(rowInfo)
+    setOpenModal(true)
+  }
+
   return (  
-    <Card title={"Transações"}>
-        <EditableTable data={dados} column={column}/>
-    </Card>
+    <>
+      <Card title={"Transações"}>
+          <Table>
+            <thead>
+              <tr>
+                <th className='d-none'>id</th>
+                <th>Data</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Conta</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dados.map(el=>{
+                return(
+                  <tr key={el.id} onClick={editRow}>
+                    <td className='d-none' data-value={el.id}></td>
+                    <td data-value={el.date}>{new Date(el.date).toLocaleDateString('pt-br')}</td>
+                    <td data-value={el.descricao}>{el.descricao}</td>
+                    <td data-value={el.categoria.id_categoria}>{<RoundIcon className={'sm-icon'} bgColor={el.categoria.cor} icon={el.categoria.icone} />}{el.categoria.nome}</td>
+                    <td data-value={el.conta.id_conta}>{<RoundIcon className={'sm-icon'} bgColor={el.conta.instituicao.cor} icon={el.conta.instituicao.icone} />}{el.conta.instituicao.nome}</td>
+                    <td data-value={el.valor}>{currency_formatter(el.valor)}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+      </Card>
+      <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
+        <TransacaoForm data={rowData} />
+      </Modal>
+    </>
   )
 }
 

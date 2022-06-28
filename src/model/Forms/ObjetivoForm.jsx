@@ -22,7 +22,7 @@ const ObjetivoForm = props => {
     }])
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}${apiPath.categoriasCompletas}`)
+        fetch(`${process.env.REACT_APP_API_URL}${apiPath.categorias}`)
         .then(res => res.json())
         .then(res => setCategorias(res))
         .catch(err => console.error(err))

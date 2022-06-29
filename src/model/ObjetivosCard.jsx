@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import ProgressIconTitle from '../components/UI/ProgressIconTitle'
 import Card from '../components/UI/Base/Card/Card'
-import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
-import axios from 'axios'
+import Objetivo from '../controller/Objetivo'
 
 const ObjetivosCard = props => {
+    const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL)
     const {date} = useDate()
-    const [dados, setDados] = useState([{
-        id_objetivo: 1,
-        titulo: "Viagem Japão",
-        cor: "bg-success",
-        valor_total: 10000,
-        date: "2022-05-27",
-        saldo_atual: 10000,
-        categoria: {
-            nome: "Viagem",
-            cor: "bg-info",
-            icone: "plane"
-        }
-    }])
+    const [dados, setDados] = useState(objetivoClass.responseStructure())
     
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.objetivos}?date=${(new Date(date)).toISOString()}`)
-        .then(res => setDados(res.data))
+        objetivoClass.get({date: new Date(date).toISOString()})
+        .then(res => setDados(res))
         .catch(err => console.error(err))
     }, [date])
     

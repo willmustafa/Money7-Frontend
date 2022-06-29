@@ -3,8 +3,13 @@ import { Col, Container, Row } from 'reactstrap'
 import Modal from '../components/UI/Base/Modal/Modal'
 import CardProgressIconTitle from '../components/UI/CardProgressIconTitle'
 import CartaoForm from '../model/Forms/CartaoForm'
+import Instituicao from '../controller/Instituicao'
+import Objetivo from '../controller/Objetivo'
 
 const TestView = () => {
+  const tes = new Objetivo(process.env.REACT_APP_API_URL)
+  tes.get({date: new Date().toISOString()}).then(el => console.log(el))
+
   const [openModal, setOpenModal] = useState(false)
   return (
     <>

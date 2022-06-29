@@ -5,11 +5,12 @@ import axios from 'axios'
 import Modal from '../../components/UI/Base/Modal/Modal'
 import ContaForm from './ContaForm'
 import CategoriaForm from './CategoriaForm'
+import { IMaskInput } from 'react-imask';
 
 const TransacaoForm = (props) => {
     const [openModalCategoria, setOpenModalCategoria] = useState(false)
     const [openModalConta, setOpenModalConta] = useState(false)
-    
+
     const propsData = props.data ? props.data : {
         id: 0,
         valor: '',
@@ -19,6 +20,7 @@ const TransacaoForm = (props) => {
         conta: ''
     }
 
+    const [modalTypeTitle] = useState(props.modalTypeTitle ? props.modalTypeTitle : 'despesa')
     const [valor, setValor] = useState(propsData.valor ? propsData.valor : 0)
     const [date, setDate] = useState(propsData.date ? propsData.date : new Date())
     const [descricao, setDescricao] = useState(propsData.descricao ? propsData.descricao: '')
@@ -75,7 +77,7 @@ const TransacaoForm = (props) => {
         .catch(error => console.log(error))
         .finally(()=> props.closeModal())
     }
-
+    
     return (
         <Form>
             <div>
@@ -92,12 +94,15 @@ const TransacaoForm = (props) => {
                             <Input placeholder="dd/mm/aaaa" type="date" value={date} onChange={e=>setDate(e.target.value)}/>
                         </FormGroup>
                     </Col>
+                    {modalTypeTitle != 'transferencia' ? (
                     <Col lg="12">
                         <FormGroup>
                             <Label>Descrição</Label>
                             <Input placeholder="Alpiste para passarinho" type="text" value={descricao} onChange={e=>setDescricao(e.target.value)} />
                         </FormGroup>
                     </Col>
+                    ) : ''}
+                    {modalTypeTitle != 'transferencia' ? (
                     <Col lg="12">
                         <FormGroup>
                             <Label>Categoria</Label>
@@ -114,9 +119,10 @@ const TransacaoForm = (props) => {
                             </Modal>
                         </FormGroup>
                     </Col>
+                    ): ''}
                     <Col lg="12">
                         <FormGroup>
-                            <Label>Conta</Label>
+                            <Label>{modalTypeTitle == 'transferencia' ? 'Saiu da ' : ''}Conta</Label>
                             <InputGroup>
                                 <Input type="select" name='conta' value={conta} onChange={e=>setConta(e.target.value)}>
                                     {contas.map(el => 
@@ -130,6 +136,24 @@ const TransacaoForm = (props) => {
                             </Modal>
                         </FormGroup>
                     </Col>
+                    {modalTypeTitle == 'transferencia' ? (
+                    <Col lg="12">
+                        <FormGroup>
+                            <Label>Entrou na Conta</Label>
+                            <InputGroup>
+                                <Input type="select" name='conta' value={conta} onChange={e=>setConta(e.target.value)}>
+                                    {contas.map(el => 
+                                        <option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
+                                    )}
+                                </Input>
+                                <Button className='col-4' onClick={() =>setOpenModalConta(true)}>Nova</Button>
+                            </InputGroup>
+                            <Modal openModal={openModalConta} setOpenModal={setOpenModalConta} title={"Editar Categoria"}>
+                                <ContaForm />
+                            </Modal>
+                        </FormGroup>
+                    </Col>
+                    ): ''}
                 </Row>
             </div>
             <ModalFooter>

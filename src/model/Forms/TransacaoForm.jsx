@@ -1,13 +1,17 @@
-import { apiPath } from '../../controller/apiPath'
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, InputGroup, Label, ModalFooter, Row } from 'reactstrap'
-import axios from 'axios'
 import Modal from '../../components/UI/Base/Modal/Modal'
 import ContaForm from './ContaForm'
 import CategoriaForm from './CategoriaForm'
-import { IMaskInput } from 'react-imask';
+import Conta from '../../controller/Conta'
+import Categoria from '../../controller/Categoria'
+import Transacao from '../../controller/Transacao'
 
 const TransacaoForm = (props) => {
+    const contaClass = new Conta(process.env.REACT_APP_API_URL)
+    const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
+    const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+
     const [openModalCategoria, setOpenModalCategoria] = useState(false)
     const [openModalConta, setOpenModalConta] = useState(false)
 
@@ -27,53 +31,35 @@ const TransacaoForm = (props) => {
     const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 0)
     const [conta, setConta] = useState(propsData.conta ? propsData.conta : 0)
 
-    const [categorias, setCategorias] = useState([{
-        id_categoria: 1,
-        nome: "",
-        cor: "",
-        icone: "",
-        tipo: ""
-    }])
-    const [contas, setContas] = useState([{
-        id_conta: 1,
-        saldo: 0,
-        apelido: null,
-        date: "",
-        instituicao: {
-            nome: "Dinheiro",
-            cor: "bg-success",
-            icone: "money-bill"
-        }
-    }])
+    const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
+    const [contas, setContas] = useState(contaClass.responseStructure())
 
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.categorias}`)
-        .then(res => setCategorias(res.data))
+        categoriaClass.get()
+        .then(res => setCategorias(res))
         .catch(err => console.error(err))
     },[openModalCategoria])
 
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.contas}`)
-        .then(res => setContas(res.data))
+        contaClass.get()
+        .then(res => setContas(res))
         .catch(err => console.error(err))
     },[openModalConta])
 
     async function save(event, exclude){
         event.preventDefault()
-        const requestParams = {
-            method: propsData.id !== 0 ? (exclude ? 'DELETE' : 'PUT'): 'POST',
-            url:`${process.env.REACT_APP_API_URL}${apiPath.transacoes}/${propsData.id !== 0 ? propsData.id : ''}`,
-            data: {
-                date,
-                id_categoria: categoria,
-                id_conta: conta,
-                descricao,
-                status: true,
-                valor,
-                id_users: 1 // Alterar
-            }
+        const data = {
+            date,
+            id_categoria: categoria,
+            id_conta: conta,
+            descricao,
+            status: true,
+            valor,
+            id_users: 1 // Alterar
         }
-        await axios(requestParams).then(data => console.log(data))
+
+        await transacaoClass.save(propsData.id, data, exclude)
+        .then(data => console.log(data))
         .catch(error => console.log(error))
         .finally(()=> props.closeModal())
     }

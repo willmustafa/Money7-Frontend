@@ -1,31 +1,23 @@
 import PlusCardModalOpenner from '../components/UI/PlusCardModalOpenner'
-import { apiPath } from '../controller/apiPath'
 import ContaForm from '../model/Forms/ContaForm'
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { currency_formatter } from '../utils/ValueUtils'
 import { useDate } from '../context/dateContext'
-import axios from 'axios'
+import Conta from '../controller/Conta'
 
 const ContasView = () => {
+    const contaClass = new Conta(process.env.REACT_APP_API_URL)
+
     const {date} = useDate()
-    const [dados, setDados] = useState([{
-        id_conta: 1,
-        date: "2022-05-01",
-        saldo: 0,
-        saldo_atual: 0,
-        apelido: null,
-        instituicao: {
-            nome: "",
-            cor: "",
-            icone: "plus"
-        }
-    }])
+    const [dados, setDados] = useState(contaClass.responseStructure())
     
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.minhasContas}?date=${(new Date(date)).toISOString()}`)
-            .then(res => setDados(res.data))
+        contaClass.saldoAtual()
+        contaClass.get({date: new Date(date).toISOString()})
+            .then(res => setDados(res))
             .catch(err => console.error(err))
+
     }, [date])
     
   return (

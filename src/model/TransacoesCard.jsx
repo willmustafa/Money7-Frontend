@@ -1,40 +1,24 @@
 import Card from '../components/UI/Base/Card/Card'
 import React, { useEffect, useState } from 'react'
 import { useDate } from '../context/dateContext'
-import { apiPath } from '../controller/apiPath'
-import EditableTable from '../components/UI/Base/Table/EditableTable'
 import { currency_formatter } from '../utils/ValueUtils'
-import axios from 'axios'
 import { Table } from 'reactstrap'
 import RoundIcon from '../components/UI/Base/Icon/RoundIcon'
 import Modal from '../components/UI/Base/Modal/Modal'
 import TransacaoForm from './Forms/TransacaoForm'
+import Transacao from '../controller/Transacao'
 
 const TransacoesCard = () => {
+  const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+
   const [openModal, setOpenModal] = useState(false)
-  const [dados, setDados] = useState([{
-    id: 1,
-    valor: -50,
-    descricao: "Flores de dia dos namorados",
-    date: "2022-05-27",
-    categoria: {
-        nome: "Viagem",
-        cor: "bg-info",
-        icone: "plane"
-    },
-    conta: {
-        instituicao: {
-            nome: "Dinheiro",
-            cor: "bg-success",
-            icone: "money-bill"
-        }
-    }
-  }])
+  const [dados, setDados] = useState(transacaoClass.responseStructure())
   const {date} = useDate()
   const [rowData, setRowData] = useState({})
+
   useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_API_URL}${apiPath.transacoes}`)
-    .then(res => setDados(res.data))
+    transacaoClass.get()
+    .then(res => setDados(res))
     .catch(err => console.error(err))
   },[date])
 

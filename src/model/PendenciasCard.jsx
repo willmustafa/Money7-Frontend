@@ -2,20 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Card from '../components/UI/Base/Card/Card'
 import { Col } from 'reactstrap'
 import { currency_formatter } from '../utils/ValueUtils'
-import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
-import axios from 'axios'
+import Transacao from '../controller/Transacao'
 
 const Pendencias = () => {
+    const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+
     const {date} = useDate()
-    const [dados, setDados] = useState([{
-      despesa: 500,
-      receita: 200
-    }])
+    const [dados, setDados] = useState(transacaoClass.responseStructure_pendencias())
   
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.pendencias}?date=${(new Date(date)).toISOString()}`)
-        .then(res => setDados(res.data))
+        transacaoClass.get_pendencias({date: new Date(date).toISOString()})
+        .then(res => setDados(res))
         .catch(err => console.error(err))
     }, [date])
     

@@ -1,25 +1,20 @@
 import Card from '../components/UI/Base/Card/Card'
 import { Table as TableBs } from 'reactstrap'
 import React, { useEffect, useState } from 'react'
-import { apiPath } from '../controller/apiPath';
 import RoundIcon from '../components/UI/Base/Icon/RoundIcon';
-import axios from 'axios';
 import Modal from '../components/UI/Base/Modal/Modal';
 import CategoriaForm from './Forms/CategoriaForm';
+import Categoria from '../controller/Categoria';
 
 const CategoriasCard = () => {
+  const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
   const [openModal, setOpenModal] = useState(false)
-  const [dados, setDados] = useState([{
-    id_categoria: 1,
-    nome: "Viagem",
-    cor: "bg-info",
-    icone: "plane",
-    tipo: ""
-  }])
+
+  const [dados, setDados] = useState(categoriaClass.responseStructure())
 
   useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_API_URL}${apiPath.categorias}`)
-      .then(res => setDados(res.data))
+    categoriaClass.get()
+      .then(res => setDados(res))
       .catch(err => console.error(err))
   },[])
 

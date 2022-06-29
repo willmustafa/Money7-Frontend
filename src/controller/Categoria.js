@@ -15,14 +15,4 @@ export default class Categoria extends Request {
             tipo: ""
         }]
     }
-
-    _pathCreator(){
-        return this.url + this.requestPath
-    }
-
-    async get(params){
-        const response = await this.executeRequest('GET', this._pathCreator(), null, params)
-        return response.data
-    }
-
 }

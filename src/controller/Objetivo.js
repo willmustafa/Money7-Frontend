@@ -24,15 +24,6 @@ export default class Objetivo extends Request {
         }]
     }
 
-    _pathCreator(){
-        return this.url + this.requestPath + this.extraPath
-    }
-
-    async get(params){
-        const response = await this.executeRequest('GET', this._pathCreator(), null, params)
-        return response.data
-    }
-
     precisaEconomizar(atual, final, data){
         const diff = final - atual
         let diffMonth = (new Date(data).getMonth()) - (new Date().getMonth())
@@ -43,13 +34,5 @@ export default class Objetivo extends Request {
         }
 
         return stringSucesso
-    }
-
-    async save(id, data, exclude){
-        const method = id !== 0 ? (exclude ? 'DELETE' : 'PUT'): 'POST'
-        this.extraPath = id !== 0 ? '/'+id : ''
-
-        const response = await this.executeRequest(method, this._pathCreator(), data)
-        return response.data
     }
 }

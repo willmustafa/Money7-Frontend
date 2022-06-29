@@ -1,58 +1,43 @@
-import { apiPath } from '../../controller/apiPath'
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
-import axios from 'axios'
+import Conta from '../../controller/Conta'
+import Instituicao from '../../controller/Instituicao'
 
 const ContaForm = props => {
+    const contaClass = new Conta(process.env.REACT_APP_API_URL)
+    const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL)
+
     const [id_conta] = useState(props.id_conta ? props.id_conta : 0)
     const [id_instituicao, setId_instituicao] = useState(props.id_instituicao)
     const [saldo, setSaldo] = useState(props.saldo ? props.saldo : 0)
     const [date, setDate] = useState(props.date ? props.date : "")
 
-    const [conta, setConta] = useState([{
-        id_conta: 1,
-        saldo: 56,
-        date: "2022-05-27",
-        id_instituicao: 1,
-        instituicao: {
-            nome: "Dinheiro",
-            cor: "bg-success",
-            icone: "money-bill"
-        }
-    }])
-
-    const [instituicao, setInstituicao] = useState([{
-        id_instituicao: 1,
-        nome: "Dinheiro",
-        cor: "bg-success",
-        icone: "money-bill",
-    }])
+    const [conta, setConta] = useState(contaClass.responseStructure())
+    const [instituicao, setInstituicao] = useState(instituicaoClass.responseStructure())
 
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.instituicoes}`)
-        .then(res => setInstituicao(res.data))
+        instituicaoClass.get()
+        .then(res => setInstituicao(res))
         .catch(err => console.error(err))
     },[])
 
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.contas}/${id_conta !== 0 ? id_conta : ''}`)
-        .then(res => setConta(res.data))
+        contaClass.get()
+        .then(res => setConta(res))
         .catch(err => console.error(err))
     },[])
 
     async function save(event, exclude){
         event.preventDefault()
-        const requestParams = {
-            method: id_conta !== 0 ? (exclude ? 'DELETE' : 'PUT'): 'POST',
-            url:`${process.env.REACT_APP_API_URL}${apiPath.contas}/${id_conta !== 0 ? id_conta : ''}`,
-            data: {
-                date,
-                saldo,
-                id_instituicao,
-                id_users: 1 // Alterar
-            }
+        const data = {
+            date,
+            saldo,
+            id_instituicao,
+            id_users: 1 // Alterar
         }
-        await axios(requestParams).then(data => console.log(data))
+
+        await contaClass.save(id_conta, data, exclude)
+        .then(data => console.log(data))
         .catch(error => console.log(error))
         .finally(()=> props.closeModal())
     }

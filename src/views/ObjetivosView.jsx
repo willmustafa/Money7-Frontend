@@ -39,7 +39,7 @@ const ObjetivosView = () => {
 }
 
 const ObjetivosCard = item => {
-    const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL)
+    const objetivoClass = new Objetivo()
     const [openModal, setOpenModal] = useState(false)
 
     return (

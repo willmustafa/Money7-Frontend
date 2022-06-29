@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Button, Col, Container, Form, Input, Label } from 'reactstrap'
 import { Navigate } from 'react-router-dom'
 import { isAuthenticated, login } from '../context/loginContext';
-import { apiPath } from '../controller/apiPath';
 
 const LoginView = () => {
     const [email, setEmail] = useState("willian2142@gmail.com")

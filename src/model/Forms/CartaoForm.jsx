@@ -1,61 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
-import { apiPath } from '../../controller/apiPath'
-import axios from 'axios'
+import Instituicao from '../../controller/Instituicao'
+import Cartao from '../../controller/Cartao'
 
 const CartaoForm = props => {
+    const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL)
+    const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
+
     const id_cartao = props.id_cartao ? props.id_cartao : 0
     const [id_instituicao, setIdConta] = useState(props.id_instituicao ? props.id_instituicao : 0)
     const [fechamento, setFechamento] = useState(props.fechamento ? props.fechamento : 15)
     const [vencimento, setVencimento] = useState(props.vencimento ? props.vencimento : 8)
     const [limite, setLimite] = useState(props.limite ? props.limite : 1000)
-
-    const [cartao, setCartao] = useState([{
-        id_instituicao: 1,
-        saldo: 0,
-        apelido: null,
-        date: "",
-        instituicao: {
-            nome: "Dinheiro",
-            cor: "bg-success",
-            icone: "money-bill"
-        }
-    }])
-
-    const [instituicao, setInstituicao] = useState([{
-        id_instituicao: 1,
-        nome: "Dinheiro",
-        cor: "bg-success",
-        icone: "money-bill"
-    }])
+    const [cartao, setCartao] = useState(cartaoClass.responseStructure())
+    const [instituicao, setInstituicao] = useState(instituicaoClass.responseStructure())
 
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.cartoes}`)
-        .then(res => setCartao(res.data))
+        cartaoClass.get()
+        .then(res => setCartao(res))
         .catch(err => console.error(err))
     },[])
 
     useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.instituicoes}`)
-        .then(res => setInstituicao(res.data))
+        instituicaoClass.get()
+        .then(res => setInstituicao(res))
         .catch(err => console.error(err))
     },[])
 
     async function save(event, exclude){
         event.preventDefault()
-        const requestParams = {
-            method: id_cartao !== 0 ? (exclude ? 'DELETE' : 'PUT'): 'POST',
-            url:`${process.env.REACT_APP_API_URL}${apiPath.cartoes}/${id_cartao !== 0 ? id_cartao : ''}`,
-            data: {
-                id_instituicao,
-                limite,
-                fechamento,
-                vencimento,
-                id_users: 1 // Alterar
-            }
+        const data = {
+            id_instituicao,
+            limite,
+            fechamento,
+            vencimento,
+            id_users: 1 // Alterar
         }
-        await axios(requestParams).then(data => console.log(data))
+
+        await cartaoClass.save(id_cartao, data, exclude)
+        .then(data => console.log(data))
         .catch(error => console.log(error))
         .finally(()=> props.closeModal())
     }

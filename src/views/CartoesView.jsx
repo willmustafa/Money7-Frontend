@@ -1,31 +1,21 @@
 import Modal from '../components/UI/Base/Modal/Modal'
 import CardProgressIconTitle from '../components/UI/CardProgressIconTitle'
 import PlusCardModalOpenner from '../components/UI/PlusCardModalOpenner'
-import { apiPath } from '../controller/apiPath'
 import CartaoForm from '../model/Forms/CartaoForm'
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext';
-import axios from 'axios'
+import Cartao from '../controller/Cartao'
 
 const CartoesView = () => {
-    const {date} = useDate()
+    const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
 
-    const [dados, setDados] = useState([{
-        id_cartao: 3,
-        limite: 1000,
-        vencimento: 8,
-        fechamento: 15,
-        instituicao: {
-            nome: "NuBank",
-            cor: "bg-nubank",
-            icone: "icon-nubank"
-        }
-    }])
+    const {date} = useDate()
+    const [dados, setDados] = useState(cartaoClass.responseStructure())
     
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.cartoes}`)
-            .then(res => setDados(res.data))
+        cartaoClass.get()
+            .then(res => setDados(res))
             .catch(err => console.error(err))
     }, [date])
     

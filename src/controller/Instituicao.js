@@ -7,12 +7,12 @@ export default class Instituicao extends Request {
         this.url = url
     }
 
-    _pathCreator(){
-        return this.url + this.requestPath
-    }
-
-    async get(){
-        const response = await this.executeRequest('GET', this._pathCreator())
-        return response.data
+    responseStructure(){
+        return [{
+            id_instituicao: 1,
+            nome: "Dinheiro",
+            cor: "bg-success",
+            icone: "money-bill"
+        }]
     }
 }

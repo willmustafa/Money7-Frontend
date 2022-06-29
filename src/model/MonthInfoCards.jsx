@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'reactstrap'
 import InfoCard from '../components/UI/Base/Card/InfoCard/InfoCard'
-import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext'
-import axios from 'axios'
+import Transacao from '../controller/Transacao'
 
 const MonthInfoCards = () => {
+    const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+
     const {date} = useDate()
-    const [dados, setDados] = useState({
-        receita: 0,
-        despesa: 0,
-        saldo_atual: 0,
-        saldo_total: 0,
-        receita_perc_last: 0,
-        despesa_perc_last: 0
-    })
+    const [dados, setDados] = useState(transacaoClass.responseStructure_somaMensal())
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.somaMensal}?date=${(new Date(date)).toISOString()}`)
-            .then(res => setDados(res.data[0]))
+        transacaoClass.get_somaMensal({date: new Date(date).toISOString()})
+            .then(res => setDados(res[0]))
             .catch(err => console.error(err))
     }, [date])
 

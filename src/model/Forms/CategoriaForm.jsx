@@ -1,10 +1,11 @@
-import { apiPath } from '../../controller/apiPath'
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
-import axios from 'axios'
 import ColorPicker from '../../components/UI/Base/Forms/ColorPicker'
+import Categoria from '../../controller/Categoria'
 
 const CategoriaForm = (props) => {
+    const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
+
     const propsData = props.data ? props.data : {
         id_categoria: 0,
         nome: '',
@@ -19,18 +20,16 @@ const CategoriaForm = (props) => {
 
     async function save(event, exclude){
         event.preventDefault()
-        const requestParams = {
-            method: propsData.id_categoria !== 0 ? (exclude ? 'DELETE' : 'PUT'): 'POST',
-            url:`${process.env.REACT_APP_API_URL}${apiPath.categorias}/${propsData.id_categoria !== 0 ? propsData.id_categoria : ''}`,
-            data: {
-                nome,
-                tipo,
-                icone,
-                cor: color,
-                id_users: 1 // Alterar
-            }
+        const data = {
+            nome,
+            tipo,
+            icone,
+            cor: color,
+            id_users: 1 // Alterar
         }
-        await axios(requestParams).then(data => console.log(data))
+
+        await categoriaClass.save(propsData.id_categoria, data, exclude)
+        .then(data => console.log(data))
         .catch(error => console.log(error))
         .finally(()=> props.closeModal())
     }

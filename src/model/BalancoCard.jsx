@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../components/UI/Base/Card/Card'
 import Line from '../components/Charts/Line/Line'
-import { apiPath } from '../controller/apiPath'
 import { useDate } from '../context/dateContext';
-import axios from 'axios';
+import Transacao from '../controller/Transacao';
 
 const BalancoCard = props => {
+    const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+
     const {date} = useDate()
-    const [dados, setDados] = useState([{
-        date: "Janeiro",
-        saldo: 800
-    }])
+    const [dados, setDados] = useState(transacaoClass.responseStructure_balancoMensal())
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}${apiPath.balancoMensal}?date=${(new Date(date)).toISOString()}`)
-            .then(res => setDados(res.data))
+        transacaoClass.get_balancoMensal({date: new Date(date).toISOString()})
+            .then(res => setDados(res))
             .catch(err => console.error(err))
     }, [date])
 

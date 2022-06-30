@@ -61,8 +61,16 @@ export const routesArray = [
             {
                 path: "test",
                 name: "Teste",
+                sidebar: false,
                 icon: 'tags',
                 element: <TestView />
+            },
+            {
+                path: "user",
+                name: "User",
+                sidebar: false,
+                icon: 'tags',
+                element: <UserView />
             },
         ]
     },

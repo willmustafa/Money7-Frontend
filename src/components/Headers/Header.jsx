@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import InputDatePicker from '../../components/UI/Base/Forms/InputDatePicker'
 import { getName, logout } from '../../context/loginContext'
+import {routesArray} from '../../routes/routes'
 
 const Navbar = styled(NavbarBs)`
 position: absolute;
@@ -19,6 +20,7 @@ width: 100%;
 z-index: 10;
 `
 
+
 const Header = () => {
     const location = useLocation();
 
@@ -31,7 +33,14 @@ const Header = () => {
                 className="d-table-cell h4 mb-0 text-white text-uppercase align-middle"
                 to="/"
               >
-                {location.pathname === "/" ? "Dashboard" : location.pathname.replace("/", "")}
+                {console.log(location.pathname)}
+                {location.pathname === "/Dasboard" ? "Dashboard" : routesArray
+                .filter(el => el.path == "dashboard")
+                .map(el => el.children
+                .filter(el => el.path == location.pathname.replace("/", "")
+                  .split('/').pop())
+                  .map(el => el.name).pop())
+                .pop()}
               </Link>
             </Col>
             <Col className="d-table">

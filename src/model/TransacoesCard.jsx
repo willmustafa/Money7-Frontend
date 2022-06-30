@@ -58,7 +58,7 @@ const TransacoesCard = () => {
                     <td data-value={el.date}>{new Date(el.date).toLocaleDateString('pt-br')}</td>
                     <td data-value={el.descricao}>{el.descricao}</td>
                     <td data-value={el.categoria.id_categoria}>{<RoundIcon className={'sm-icon'} bgColor={el.categoria.cor} icon={el.categoria.icone} />}{el.categoria.nome}</td>
-                    <td data-value={el.conta.id_conta}>{<RoundIcon className={'sm-icon'} bgColor={el.conta.instituicao.cor} icon={el.conta.instituicao.icone} />}{el.conta.instituicao.nome}</td>
+                    <td data-value={el.conta.id_conta}>{<RoundIcon className={'sm-icon'} bgColor={el.conta.instituicao.cor} icon={el.conta.instituicao.icone} />}{el.conta.id_cartao ? 'Cartão ' : ''}{el.conta.instituicao.nome}</td>
                     <td data-value={el.valor}>{currency_formatter(el.valor)}</td>
                   </tr>
                 )

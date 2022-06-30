@@ -13,8 +13,10 @@ const ContasView = () => {
     const [dados, setDados] = useState(contaClass.responseStructure())
     
     useEffect(() => {
-        contaClass.saldoAtual()
-        contaClass.get({date: new Date(date).toISOString()})
+        contaClass.get_saldoAtual({
+            date: new Date(date).toISOString(),
+            limit: 50
+        })
             .then(res => setDados(res))
             .catch(err => console.error(err))
 

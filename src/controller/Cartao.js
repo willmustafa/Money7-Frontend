@@ -9,15 +9,19 @@ export default class Cartao extends Request {
 
     responseStructure(){
         return [{
-            id_cartao: 1,
-            id_instituicao: 1,
-            limite: 0,
-            fechamento: 10,
-            vencimento: 8,
+            id_conta: 41,
+            id_instituicao: 2,
+            id_cartao: 4,
+            saldo_atual: 0,
             instituicao: {
-                nome: "Dinheiro",
-                cor: "bg-success",
-                icone: "money-bill"
+              nome: 'NuBank',
+              cor: 'bg-nubank',
+              icone: 'icon-nubank'
+            },
+            cartao: {
+              limite: 5600,
+              vencimento: 8,
+              fechamento: 15
             }
         }]
     }

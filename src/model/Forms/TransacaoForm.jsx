@@ -6,11 +6,13 @@ import CategoriaForm from './CategoriaForm'
 import Conta from '../../controller/Conta'
 import Categoria from '../../controller/Categoria'
 import Transacao from '../../controller/Transacao'
+import Cartao from '../../controller/Cartao'
 
 const TransacaoForm = (props) => {
     const contaClass = new Conta(process.env.REACT_APP_API_URL)
     const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
     const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+    const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
 
     const [openModalCategoria, setOpenModalCategoria] = useState(false)
     const [openModalConta, setOpenModalConta] = useState(false)
@@ -31,6 +33,7 @@ const TransacaoForm = (props) => {
     const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 0)
     const [conta, setConta] = useState(propsData.conta ? propsData.conta : 0)
 
+
     const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
     const [contas, setContas] = useState(contaClass.responseStructure())
 
@@ -41,10 +44,11 @@ const TransacaoForm = (props) => {
     },[openModalCategoria])
 
     useEffect(()=>{
-        contaClass.get()
+        contaClass.get_contaCartao()
         .then(res => setContas(res))
         .catch(err => console.error(err))
     },[openModalConta])
+
 
     async function save(event, exclude){
         event.preventDefault()
@@ -111,9 +115,16 @@ const TransacaoForm = (props) => {
                             <Label>{modalTypeTitle == 'transferencia' ? 'Saiu da ' : ''}Conta</Label>
                             <InputGroup>
                                 <Input type="select" name='conta' value={conta} onChange={e=>setConta(e.target.value)}>
-                                    {contas.map(el => 
-                                        <option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
-                                    )}
+                                    <optgroup label="Contas Bancárias">
+                                        {contas.filter(el => !el.cartao).map(el => 
+                                            <option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
+                                        )}      
+                                    </optgroup>
+                                    <optgroup label="Cartões de Crédito">
+                                        {contas.filter(el => el.cartao).map(el => 
+                                            <option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
+                                        )}  
+                                    </optgroup>
                                 </Input>
                                 <Button className='col-4' onClick={() =>setOpenModalConta(true)}>Nova</Button>
                             </InputGroup>

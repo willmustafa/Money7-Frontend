@@ -26,7 +26,6 @@ export default class Request {
             responseType: 'json',
             timeout: 9000000,
         }
-
         try {
             return await axios(request_params)
         } catch (error) {

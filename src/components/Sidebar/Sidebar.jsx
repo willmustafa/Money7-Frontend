@@ -8,7 +8,7 @@ import NavLink from './NavLink.styled'
 import NavLinkIconName from './NavLinkIconName'
 
 const getRoutes = (routes) => {
-  return routes[1].children.map((prop, key) => {
+  return routes[1].children.filter(el => el.sidebar != false).map((prop, key) => {
     return (
       <NavLinkIconName {...prop} key={key}/>
     )

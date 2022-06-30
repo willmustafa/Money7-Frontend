@@ -14,9 +14,10 @@ const CartoesView = () => {
     const [dados, setDados] = useState(cartaoClass.responseStructure())
     
     useEffect(() => {
-        cartaoClass.get()
+        cartaoClass.get({date: new Date(date).toISOString()})
             .then(res => setDados(res))
             .catch(err => console.error(err))
+            .finally(res => console.log(dados))
     }, [date])
     
   return (
@@ -41,6 +42,7 @@ const CartoesView = () => {
 }
 
 const CartaoInfo = props => {
+    console.log(props)
     const [openModal, setOpenModal] = useState(false)
     return (
         <Col xl="4" md="12" className='mb-md-4'>
@@ -50,12 +52,12 @@ const CartaoInfo = props => {
                 smallTitle='Cartão'
                 icon={props.instituicao.icone}
                 bgColor={props.instituicao.cor}
-                value={0}
-                max={props.limite}
+                value={props.saldo_atual}
+                max={props.cartao.limite}
                 cartao
                 onClick={() => setOpenModal(true)}
                 footerLeft="Fatura Aberta"
-                footerRigth={`Vencimento: ${props.fechamento}/04`}
+                footerRigth={`Vencimento: ${props.cartao.fechamento}/04`}
             />
             <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
                 <CartaoForm {...props} />

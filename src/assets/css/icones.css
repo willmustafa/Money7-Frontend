@@ -34,7 +34,8 @@
     background: #f2e600;
 }
 
-.bg-bradesco{
+.bg-bradesco,
+.bg-ifood-beneficios{
     background: #c10325;
 }
 
@@ -51,6 +52,10 @@
     height: 2rem;
     width: 2rem;
     display: flex;
+}
+
+.icon-ifood-beneficios::after{
+    content: url('../img/icons/brand/ifood-beneficios.png');
 }
 
 .icon-nubank::after{

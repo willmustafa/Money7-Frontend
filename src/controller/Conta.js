@@ -24,4 +24,9 @@ export default class Conta extends Request {
         this.requestPath = '/contasFiltradas/saldoAtualPrevisto'
         return this.get(params)
     }
+
+    get_contaCartao(params){
+        this.requestPath = '/contasFiltradas/contasCartoes'
+        return this.get(params)
+    }
 }

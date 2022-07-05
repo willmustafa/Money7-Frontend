@@ -18,38 +18,38 @@ cursor: pointer;
 `
 
 const PlusCardModalOpenner = props => {
-    const [openModal, setOpenModal] = useState(false)
+	const [openModal, setOpenModal] = useState(false)
     
-    return (
-        <>
-        <Card className={"p-4"} onClick={() => setOpenModal(true)}>
-            <Centered>
-              <RoundIcon icon={props.icon} bgColor={props.bgColor}/>
-              <h4 className="mt-3">{props.title}</h4>
-            </Centered>
-            {props.children}
-        </Card>
-        <Modal openModal={openModal} setOpenModal={setOpenModal} title={props.modalTitle}>
-          {props.form}
-        </Modal>
-    </>
-    )
+	return (
+		<>
+			<Card className={'p-4'} onClick={() => setOpenModal(true)}>
+				<Centered>
+					<RoundIcon icon={props.icon} bgColor={props.bgColor}/>
+					<h4 className="mt-3">{props.title}</h4>
+				</Centered>
+				{props.children}
+			</Card>
+			<Modal openModal={openModal} setOpenModal={setOpenModal} title={props.modalTitle}>
+				{props.form}
+			</Modal>
+		</>
+	)
 }
 
 PlusCardModalOpenner.propTypes = {
-    children: PropTypes.node,
-    title: PropTypes.string,
-    icon: PropTypes.string,
-    bgColor: PropTypes.string,
-    modalTitle: PropTypes.string.isRequired,
-    form: PropTypes.element.isRequired
+	children: PropTypes.node,
+	title: PropTypes.string,
+	icon: PropTypes.string,
+	bgColor: PropTypes.string,
+	modalTitle: PropTypes.string.isRequired,
+	form: PropTypes.element.isRequired
 }
 
 
 PlusCardModalOpenner.defaultProps = {
-    bgColor: "bg-danger",
-    icon: "plus",
-    title: "Novo"
+	bgColor: 'bg-danger',
+	icon: 'plus',
+	title: 'Novo'
 }
 
 export default PlusCardModalOpenner

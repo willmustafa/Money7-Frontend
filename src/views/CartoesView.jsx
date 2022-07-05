@@ -4,66 +4,66 @@ import PlusCardModalOpenner from '../components/UI/PlusCardModalOpenner'
 import CartaoForm from '../model/Forms/CartaoForm'
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
-import { useDate } from '../context/dateContext';
+import { useDate } from '../context/dateContext'
 import Cartao from '../controller/Cartao'
 
 const CartoesView = () => {
-    const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
+	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
 
-    const {date} = useDate()
-    const [dados, setDados] = useState(cartaoClass.responseStructure())
+	const {date} = useDate()
+	const [dados, setDados] = useState(cartaoClass.responseStructure())
     
-    useEffect(() => {
-        cartaoClass.get({date: new Date(date).toISOString()})
-            .then(res => setDados(res))
-            .catch(err => console.error(err))
-            .finally(res => console.log(dados))
-    }, [date])
+	useEffect(() => {
+		cartaoClass.get({date: new Date(date).toISOString()})
+			.then(res => setDados(res))
+			.catch(err => console.error(err))
+			.finally(() => console.log(dados))
+	}, [date])
     
-  return (
-    <>
-        <div className="main-header">
-        </div>
-        <section className='mt-n-7 container'>
-            <Row className="mb-5">
-                <Col xl="4" md="12" className='mb-md-4'>
-                    <PlusCardModalOpenner 
-                    modalTitle='Novo Cartão'
-                    form={<CartaoForm />}
-                    />
-                </Col>
-                {dados.map(item => {
-                    return <CartaoInfo {...item} key={item.id_cartao} />
-                })}
-            </Row>
-        </section>
-    </>
-  )
+	return (
+		<>
+			<div className="main-header">
+			</div>
+			<section className='mt-n-7 container'>
+				<Row className="mb-5">
+					<Col xl="4" md="12" className='mb-md-4'>
+						<PlusCardModalOpenner 
+							modalTitle='Novo Cartão'
+							form={<CartaoForm />}
+						/>
+					</Col>
+					{dados.map(item => {
+						return <CartaoInfo {...item} key={item.id_cartao} />
+					})}
+				</Row>
+			</section>
+		</>
+	)
 }
 
 const CartaoInfo = props => {
-    console.log(props)
-    const [openModal, setOpenModal] = useState(false)
-    return (
-        <Col xl="4" md="12" className='mb-md-4'>
-            <CardProgressIconTitle
-                cardClassName={"flex-row align-items-center"}
-                title={props.instituicao.nome}
-                smallTitle='Cartão'
-                icon={props.instituicao.icone}
-                bgColor={props.instituicao.cor}
-                value={props.saldo_atual}
-                max={props.cartao.limite}
-                cartao
-                onClick={() => setOpenModal(true)}
-                footerLeft="Fatura Aberta"
-                footerRigth={`Vencimento: ${props.cartao.fechamento}/04`}
-            />
-            <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
-                <CartaoForm {...props} />
-            </Modal>
-        </Col>
-    )
+	console.log(props)
+	const [openModal, setOpenModal] = useState(false)
+	return (
+		<Col xl="4" md="12" className='mb-md-4'>
+			<CardProgressIconTitle
+				cardClassName={'flex-row align-items-center'}
+				title={props.instituicao.nome}
+				smallTitle='Cartão'
+				icon={props.instituicao.icone}
+				bgColor={props.instituicao.cor}
+				value={props.saldo_atual}
+				max={props.cartao.limite}
+				cartao
+				onClick={() => setOpenModal(true)}
+				footerLeft="Fatura Aberta"
+				footerRigth={`Vencimento: ${props.cartao.fechamento}/04`}
+			/>
+			<Modal openModal={openModal} setOpenModal={setOpenModal} title={'Editar Cartão'}>
+				<CartaoForm {...props} />
+			</Modal>
+		</Col>
+	)
 }
 
 export default CartoesView

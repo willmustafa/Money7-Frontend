@@ -1,30 +1,30 @@
-import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 
 // Third part
-import 'bootstrap/dist/css/bootstrap.css';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import 'bootstrap/dist/css/bootstrap.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 
 // Styles
-import './assets/css/styles.css';
-import './assets/css/icones.css';
+import './assets/css/styles.css'
+import './assets/css/icones.css'
 
 // Views
-import App from './App';
+import App from './App'
 
 // Font Awesome Globally
-library.add(fas);
+library.add(fas)
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root'),
-);
+	document.getElementById('root'),
+)
 
 root.render(
-  <React.Fragment>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.Fragment>
-);
+	<React.Fragment>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</React.Fragment>
+)

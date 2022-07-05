@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { NavLink as NavLinkR } from "react-router-dom";
+import { NavLink as NavLinkR } from 'react-router-dom'
 
 const NavLink = styled(NavLinkR)`
 display: grid;

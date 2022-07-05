@@ -4,29 +4,29 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const RoundIcon = props => {
-    return (
-        <Icon className={`${props.bgColor} ${props.className} text-white rounded-circle shadow`}>
-            {props.icon.substring(0,4) === "icon" ? (
-                <i className={`${props.icon} custom-icon`} />
-            ):
-                <FontAwesomeIcon icon={props.icon} />   
-            }
-        </Icon>
-    )
+	return (
+		<Icon className={`${props.bgColor} ${props.className} text-white rounded-circle shadow`}>
+			{props.icon.substring(0,4) === 'icon' ? (
+				<i className={`${props.icon} custom-icon`} />
+			):
+				<FontAwesomeIcon icon={props.icon} />   
+			}
+		</Icon>
+	)
 }
 
 RoundIcon.propTypes = {
-    /** Background color from icon element, keep in mind that the icon is always white */
-    bgColor: PropTypes.string.isRequired,
-    /** Icon string from FontAwesome */
-    icon: PropTypes.string.isRequired,
-    /** Custom className to Icon round element */
-    className: PropTypes.string
+	/** Background color from icon element, keep in mind that the icon is always white */
+	bgColor: PropTypes.string.isRequired,
+	/** Icon string from FontAwesome */
+	icon: PropTypes.string.isRequired,
+	/** Custom className to Icon round element */
+	className: PropTypes.string
 }
 
 RoundIcon.defaultProps = {
-    className: "",
-    icon: "circle"
+	className: '',
+	icon: 'circle'
 }
 
 const Icon = styled.div`

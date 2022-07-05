@@ -1,48 +1,22 @@
 import React, { useState } from 'react'
-import { Col, Container, Row } from 'reactstrap'
-import Modal from '../components/UI/Base/Modal/Modal'
-import CardProgressIconTitle from '../components/UI/CardProgressIconTitle'
-import CartaoForm from '../model/Forms/CartaoForm'
-import Instituicao from '../controller/Instituicao'
-import Objetivo from '../controller/Objetivo'
+import { Col, Row } from 'reactstrap'
+import {QRCodeSVG} from 'qrcode.react'
+import {v4 as uuidv4} from 'uuid'
 
 const TestView = () => {
-  const tes = new Objetivo(process.env.REACT_APP_API_URL)
-  tes.get({date: new Date().toISOString()}).then(el => console.log(el))
+	const [qrcode] = useState(uuidv4())
 
-  const [openModal, setOpenModal] = useState(false)
-  return (
-    <>
-        <section className='container'>
-            <Row className="mb-5 pt-5">
-              <Col xl="4" md="12" className='mb-md-4'>
-                <CardProgressIconTitle
-                cardClassName={"flex-row align-items-center"}
-                title='Caixa'
-                smallTitle='banco'
-                icon='icon-caixa'
-                bgColor='bg-caixa'
-                value={0}
-                max={1220}
-                cartao
-                onClick={() => setOpenModal(true)}
-                footerLeft="Fatura Aberta"
-                footerRigth="Vencimento: 16/04"
-                />
-                <Modal openModal={openModal} setOpenModal={setOpenModal} title={"Editar Cartão"}>
-                    <CartaoForm 
-                      id_cartao={2}
-                      id_conta={1}
-                      fechamento={12}
-                      vencimento={20}
-                      limite={2800}
-                    />
-                </Modal>
-            </Col>
-            </Row>
-        </section>
-    </>
-  )
+	return (
+		<>
+			<section className='container'>
+				<Row className="mb-5 pt-5">
+					<Col xl="4" md="12" className='mb-md-4'>
+						<QRCodeSVG value={qrcode} />
+					</Col>
+				</Row>
+			</section>
+		</>
+	)
 }
 
 export default TestView

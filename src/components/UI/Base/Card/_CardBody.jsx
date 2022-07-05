@@ -1,23 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { CardBody as CardBodyBs } from 'reactstrap';
+import { CardBody as CardBodyBs } from 'reactstrap'
 
 const _CardBody = props => {
-    return (
-        <CardBody className={props.className}>
-            {props.children}
-        </CardBody>
-    )
+	return (
+		<CardBody className={props.className}>
+			{props.children}
+		</CardBody>
+	)
 }
 
 _CardBody.propTypes = {
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string
+	children: PropTypes.node.isRequired,
+	className: PropTypes.string
 }
 
 _CardBody.defaultProps = {
-    children: <p>Not Loaded</p>
+	children: <p>Not Loaded</p>
 }
 
 const CardBody = styled(CardBodyBs)`

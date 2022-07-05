@@ -5,22 +5,28 @@ import { useDate } from '../context/dateContext'
 import Transacao from '../controller/Transacao'
 
 const ReceitaDespesaCard = () => {
-  const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
 
-  const {date} = useDate()
-  const [dados, setDados] = useState(transacaoClass.responseStructure_gastosReceitasMensal())
+	const {date} = useDate()
+	const [dados, setDados] = useState(transacaoClass.responseStructure_gastosReceitasMensal())
 
-  useEffect(() => {
-    transacaoClass.get_gastosReceitasMensal({date: new Date(date).toISOString()})
-    .then(res => setDados(res))
-    .catch(err => console.error(err))
-  }, [date])
+	useEffect(() => {
+		transacaoClass.get_gastosReceitasMensal({date: new Date(date).toISOString()})
+			.then(res => setDados(res.map(el => {
+				return {
+					date: el.month_number +'/'+ el.year,
+					despesa: el.despesa,
+					receita: el.receita
+				}
+			})))
+			.catch(err => console.error(err))
+	}, [date])
 
-  return (
-    <Card title="Gastos e Receitas" smallTitle="Relatório">
-        <VerticalBar data={dados} label="date" dataLabel={["receita", "despesa"]}/>
-    </Card>
-  )
+	return (
+		<Card title="Gastos e Receitas" smallTitle="Relatório">
+			<VerticalBar data={dados} label="date" dataLabel={['receita', 'despesa']}/>
+		</Card>
+	)
 }
 
 export default ReceitaDespesaCard

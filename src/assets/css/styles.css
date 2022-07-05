@@ -128,6 +128,10 @@ tbody tr{
     vertical-align: middle;
 }
 
+tbody td{
+    text-transform: capitalize;
+}
+
 
 .custom-radios div {
     display: inline-block;

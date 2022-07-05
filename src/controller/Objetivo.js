@@ -1,38 +1,38 @@
 import Request from './index'
 
 export default class Objetivo extends Request {
-    constructor(url){
-        super()
-        this.requestPath = '/objetivos'
-        this.url = url
-    }
+	constructor(url){
+		super()
+		this.requestPath = '/objetivos'
+		this.url = url
+	}
 
-    responseStructure(){
-        return [{
-            id_objetivo: 1,
-            titulo: "Viagem Japão",
-            cor: "bg-success",
-            icone: "plane",
-            valor_total: 10000,
-            date: "2022-05-27",
-            saldo_atual: 10000,
-            categoria: {
-                nome: "Viagem",
-                cor: "bg-info",
-                icone: "plane"
-            }
-        }]
-    }
+	responseStructure(){
+		return [{
+			id_objetivo: 1,
+			titulo: 'Viagem Japão',
+			cor: 'bg-success',
+			icone: 'plane',
+			valor_total: 10000,
+			date: '2022-05-27',
+			saldo_atual: 10000,
+			categoria: {
+				nome: 'Viagem',
+				cor: 'bg-info',
+				icone: 'plane'
+			}
+		}]
+	}
 
-    precisaEconomizar(atual, final, data){
-        const diff = final - atual
-        let diffMonth = (new Date(data).getMonth()) - (new Date().getMonth())
-        let stringSucesso = `Você deve economizar R$ ${Number.parseFloat(diff/diffMonth).toFixed(2)} por mês.`
+	precisaEconomizar(atual, final, data){
+		const diff = final - atual
+		let diffMonth = (new Date(data).getMonth()) - (new Date().getMonth())
+		let stringSucesso = `Você deve economizar R$ ${Number.parseFloat(diff/diffMonth).toFixed(2)} por mês.`
         
-        if(diffMonth <= 0){
-            return 'Objetivo finalizado.'
-        }
+		if(diffMonth <= 0){
+			return 'Objetivo finalizado.'
+		}
 
-        return stringSucesso
-    }
+		return stringSucesso
+	}
 }

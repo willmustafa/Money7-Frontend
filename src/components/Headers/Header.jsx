@@ -22,64 +22,63 @@ z-index: 10;
 
 
 const Header = () => {
-    const location = useLocation();
+	const location = useLocation()
 
-    return (
-        <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
-        <Container fluid>
-          <Row>
-            <Col className="d-table">
-              <Link
-                className="d-table-cell h4 mb-0 text-white text-uppercase align-middle"
-                to="/"
-              >
-                {console.log(location.pathname)}
-                {location.pathname === "/Dasboard" ? "Dashboard" : routesArray
-                .filter(el => el.path == "dashboard")
-                .map(el => el.children
-                .filter(el => el.path == location.pathname.replace("/", "")
-                  .split('/').pop())
-                  .map(el => el.name).pop())
-                .pop()}
-              </Link>
-            </Col>
-            <Col className="d-table">
-              <div className="d-table-cell align-middle text-center">
-                <InputDatePicker />
-              </div>
-            </Col>
-            <Col>
-              <Nav className="align-items-center d-none d-md-flex float-end" navbar>
-                <UncontrolledDropdown nav>
-                  <DropdownToggle nav>
-                    <Media className="d-flex align-items-center">
-                      <span className="avatar avatar-sm rounded-circle">
-                      </span>
-                      <Media className="ms-2 d-none d-lg-block">
-                        <span className="mb-0 text-sm font-weight-bold">
-                          {getName()}
-                        </span>
-                      </Media>
-                    </Media>
-                  </DropdownToggle>
-                  <DropdownMenu className="dropdown-menu-arrow">
-                    <DropdownItem to="/dashboard/user" tag={Link}>
-                      <FontAwesomeIcon icon="user" />
-                      <span>Meu Perfil</span>
-                    </DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem href="/" onClick={() => logout()}>
-                      <FontAwesomeIcon icon="arrow-right-from-bracket" />
-                      <span>Sair</span>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </Nav>
-            </Col>
-          </Row>
-        </Container>
-      </Navbar>
-    )
+	return (
+		<Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
+			<Container fluid>
+				<Row>
+					<Col className="d-table">
+						<Link
+							className="d-table-cell h4 mb-0 text-white text-uppercase align-middle"
+							to="/"
+						>
+							{location.pathname == '/dashboard' ? 'Dashboard' : routesArray
+								.filter(el => el.path == 'dashboard')
+								.map(el => el.children
+									.filter(el => el.path == location.pathname.replace('/', '')
+										.split('/').pop())
+									.map(el => el.name).pop())
+								.pop()}
+						</Link>
+					</Col>
+					<Col className="d-table">
+						<div className="d-table-cell align-middle text-center">
+							<InputDatePicker />
+						</div>
+					</Col>
+					<Col>
+						<Nav className="align-items-center d-none d-md-flex float-end" navbar>
+							<UncontrolledDropdown nav>
+								<DropdownToggle nav>
+									<Media className="d-flex align-items-center">
+										<span className="avatar avatar-sm rounded-circle">
+										</span>
+										<Media className="ms-2 d-none d-lg-block">
+											<span className="mb-0 text-sm font-weight-bold">
+												{getName()}
+											</span>
+										</Media>
+									</Media>
+								</DropdownToggle>
+								<DropdownMenu className="dropdown-menu-arrow">
+									<DropdownItem to="/dashboard/user" tag={Link}>
+										<FontAwesomeIcon icon="user" />
+										<span>Meu Perfil</span>
+									</DropdownItem>
+									<DropdownItem divider />
+									<DropdownItem href="/" onClick={() => logout()}>
+										<FontAwesomeIcon icon="arrow-right-from-bracket" />
+										<span>Sair</span>
+									</DropdownItem>
+								</DropdownMenu>
+							</UncontrolledDropdown>
+						</Nav>
+					</Col>
+				</Row>
+			</Container>
+		</Navbar>
+	)
 }
 
 export default Header

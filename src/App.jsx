@@ -1,10 +1,10 @@
-import React from 'react';
-import Router from './routes/RoutesConfig';
+import React from 'react'
+import Router from './routes/RoutesConfig'
 
 function App() {
-  return (
-    <Router />
-  );
+	return (
+		<Router />
+	)
 }
 
-export default App;
+export default App

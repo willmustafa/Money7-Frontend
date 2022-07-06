@@ -41,7 +41,7 @@ const LoginView = () => {
 		e.preventDefault()
 
 		try {
-			const response = await axios.post('http://localhost:8080/users/login',
+			const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`,
 				JSON.stringify({ user, pwd }),
 				{
 					headers: { 'Content-Type': 'application/json' },

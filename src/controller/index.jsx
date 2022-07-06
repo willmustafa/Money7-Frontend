@@ -13,7 +13,6 @@ export default class Request {
 
 	async executeRequest(requestType, urlPath, body = null, params = null, headers = {}){
 		const url = `${urlPath}`
-
 		const request_params = {
 			method: requestType,
 			url,
@@ -22,9 +21,11 @@ export default class Request {
 			headers: {
 				...headers,
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${this.auth}`
 			},
 			responseType: 'json',
 			timeout: 9000000,
+			withCredentials: true
 		}
 		return await axios(request_params)
 	}

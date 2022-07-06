@@ -13,6 +13,7 @@ import './assets/css/icones.css'
 
 // Views
 import App from './App'
+import { AuthProvider } from './context/AuthProvider'
 
 // Font Awesome Globally
 library.add(fas)
@@ -22,9 +23,11 @@ const root = ReactDOM.createRoot(
 )
 
 root.render(
-	<React.Fragment>
+	<React.StrictMode>
 		<BrowserRouter>
-			<App />
+			<AuthProvider>
+				<App />
+			</AuthProvider>
 		</BrowserRouter>
-	</React.Fragment>
+	</React.StrictMode>
 )

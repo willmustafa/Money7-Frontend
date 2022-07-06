@@ -1,12 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 import Card from '../components/UI/Base/Card/Card'
-import { getEmail, getName } from '../context/loginContext'
 
 const UserView = () => {
-	const [name, setName] = useState(getName())
-	const [email, setEmail] = useState(getEmail())
-
 	return (
 		<>
 			<div className="main-header" />
@@ -20,13 +16,13 @@ const UserView = () => {
 										<Col lg="6">
 											<FormGroup>
 												<Label>Nome Completo</Label>
-												<Input name='name' placeholder="Willian Felipe" type="text" value={name} onChange={(e)=>setName(e.target.value)} autoComplete="false"/>
+												<Input name='name' placeholder="Willian Felipe" type="text" autoComplete="false"/>
 											</FormGroup>
 										</Col>
 										<Col lg="6">
 											<FormGroup>
 												<Label>E-mail</Label>
-												<Input name='email' placeholder="willianfmustafa@gmail.com" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} autoComplete="false"/>
+												<Input name='email' placeholder="willianfmustafa@gmail.com" type="email" autoComplete="false"/>
 											</FormGroup>
 										</Col>
 									</Row>

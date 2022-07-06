@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
 import Conta from '../../controller/Conta'
 import Instituicao from '../../controller/Instituicao'
+import useAuth from '../../hooks/useAuth'
 
 const ContaForm = props => {
-	const contaClass = new Conta(process.env.REACT_APP_API_URL)
-	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const [id_conta] = useState(props.id_conta ? props.id_conta : 0)
 	const [id_instituicao, setId_instituicao] = useState(props.id_instituicao)

@@ -8,11 +8,13 @@ import Categoria from '../../controller/Categoria'
 import Transacao from '../../controller/Transacao'
 import { capitalize } from '../../utils/StringUtils'
 import CurrencyInput from '../../components/UI/Base/Forms/CurrencyInput'
+import useAuth from '../../hooks/useAuth'
 
 const TransacaoForm = (props) => {
-	const contaClass = new Conta(process.env.REACT_APP_API_URL)
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const [openModalCategoria, setOpenModalCategoria] = useState(false)
 	const [openModalConta, setOpenModalConta] = useState(false)
@@ -35,6 +37,7 @@ const TransacaoForm = (props) => {
 
 	const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
 	const [contas, setContas] = useState(contaClass.responseStructure())
+
 
 	useEffect(()=>{
 		categoriaClass.get()

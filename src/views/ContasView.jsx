@@ -5,9 +5,11 @@ import { Col, Row } from 'reactstrap'
 import { currency_formatter } from '../utils/ValueUtils'
 import { useDate } from '../context/dateContext'
 import Conta from '../controller/Conta'
+import useAuth from '../hooks/useAuth'
 
 const ContasView = () => {
-	const contaClass = new Conta(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth.accessToken)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(contaClass.responseStructure())

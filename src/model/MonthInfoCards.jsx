@@ -3,9 +3,11 @@ import { Col, Container, Row } from 'reactstrap'
 import InfoCard from '../components/UI/Base/Card/InfoCard/InfoCard'
 import { useDate } from '../context/dateContext'
 import Transacao from '../controller/Transacao'
+import useAuth from '../hooks/useAuth'
 
 const MonthInfoCards = () => {
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(transacaoClass.responseStructure_somaMensal())
@@ -44,6 +46,7 @@ const MonthInfoCards = () => {
 						<InfoCard
 							title="Balanço do Mês" 
 							value={dados.saldo_atual} 
+							percentageValue={dados.balanco_perc_last}
 							bgColor={'bg-primary'} 
 							icon={'chart-line'}
 						/>

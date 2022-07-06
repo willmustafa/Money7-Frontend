@@ -6,9 +6,11 @@ import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext'
 import Cartao from '../controller/Cartao'
+import useAuth from '../hooks/useAuth'
 
 const CartoesView = () => {
-	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(cartaoClass.responseStructure())
@@ -17,7 +19,6 @@ const CartoesView = () => {
 		cartaoClass.get({date: new Date(date).toISOString()})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-			.finally(() => console.log(dados))
 	}, [date])
     
 	return (
@@ -42,7 +43,6 @@ const CartoesView = () => {
 }
 
 const CartaoInfo = props => {
-	console.log(props)
 	const [openModal, setOpenModal] = useState(false)
 	return (
 		<Col xl="4" md="12" className='mb-md-4'>

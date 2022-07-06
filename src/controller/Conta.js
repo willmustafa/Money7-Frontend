@@ -1,9 +1,10 @@
 import Request from './index'
 
 export default class Conta extends Request {
-	constructor(url){
+	constructor(url, auth){
 		super()
 		this.requestPath = '/contas'
+		this.auth = auth
 		this.url = url
 	}
 

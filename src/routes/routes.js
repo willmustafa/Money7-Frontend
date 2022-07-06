@@ -8,7 +8,6 @@ import ObjetivosView from '../views/ObjetivosView'
 import TransacoesView from '../views/TransacoesView'
 import DashboardView from '../views/DashboardView'
 import NotFoundView from '../views/NotFoundView'
-import { isAuthenticated } from '../context/loginContext'
 import UserView from '../views/UserView'
 import TestView from '../views/TestView'
 
@@ -21,7 +20,7 @@ export const routesArray = [
 	},
 	{
 		path: 'dashboard',
-		element: isAuthenticated() ? <MainView /> : <LoginView />,
+		element: <MainView />,
 		children: [
 			{
 				path: '',

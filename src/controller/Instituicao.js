@@ -1,9 +1,10 @@
 import Request from './index'
 
 export default class Instituicao extends Request {
-	constructor(url){
+	constructor(url, auth){
 		super()
 		this.requestPath = '/instituicoes'
+		this.auth = auth
 		this.url = url
 	}
 

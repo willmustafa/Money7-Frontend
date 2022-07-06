@@ -4,7 +4,6 @@ import { Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Media, Nav,
 import { Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import InputDatePicker from '../../components/UI/Base/Forms/InputDatePicker'
-import { getName, logout } from '../../context/loginContext'
 import {routesArray} from '../../routes/routes'
 
 const Navbar = styled(NavbarBs)`
@@ -56,7 +55,7 @@ const Header = () => {
 										</span>
 										<Media className="ms-2 d-none d-lg-block">
 											<span className="mb-0 text-sm font-weight-bold">
-												{getName()}
+												Willian
 											</span>
 										</Media>
 									</Media>
@@ -67,7 +66,7 @@ const Header = () => {
 										<span>Meu Perfil</span>
 									</DropdownItem>
 									<DropdownItem divider />
-									<DropdownItem href="/" onClick={() => logout()}>
+									<DropdownItem href="/">
 										<FontAwesomeIcon icon="arrow-right-from-bracket" />
 										<span>Sair</span>
 									</DropdownItem>

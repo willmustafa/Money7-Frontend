@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
 import ColorPicker from '../../components/UI/Base/Forms/ColorPicker'
 import Categoria from '../../controller/Categoria'
+import { capitalize } from '../../utils/StringUtils'
+import {iconList} from '../../components/UI/Base/Icon/iconList'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import useAuth from '../../hooks/useAuth'
 
 const CategoriaForm = (props) => {
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const propsData = props.data ? props.data : {
 		id_categoria: 0,
@@ -14,9 +19,10 @@ const CategoriaForm = (props) => {
 	}
 
 	const [nome, setNome] = useState(propsData.nome ? propsData.nome : '')
-	const [tipo, setTipo] = useState(propsData.tipo ? propsData.tipo : '')
+	const [tipo, setTipo] = useState(propsData.tipo ? capitalize(propsData.tipo) : '')
 	const [icone, setIcone] = useState(propsData.iconeArray[1] ? propsData.iconeArray[1] :'')
 	const [color, setColor] = useState(propsData.iconeArray[0] ? propsData.iconeArray[0] : 'bg-primary')
+
 
 	async function save(event, exclude){
 		event.preventDefault()
@@ -47,13 +53,22 @@ const CategoriaForm = (props) => {
 					<Col lg="12">
 						<FormGroup>
 							<Label>Tipo</Label>
-							<Input placeholder="Gastos Essenciais" type="text" value={tipo} onChange={e=>setTipo(e.target.value)}/>
+							<Input name="tipo" type="select" value={tipo} onChange={e=>setTipo(e.target.value)}>
+								<option value='Gastos Essenciais' >Gastos Essenciais</option>
+								<option value='Gastos' >Gastos</option>
+								<option value='Receitas' >Receitas</option>
+								<option value='Investimento' >Investimento</option>
+							</Input>
 						</FormGroup>
 					</Col>
 					<Col lg="12">
 						<FormGroup>
 							<Label>Ícone</Label>
-							<Input placeholder="plane" type="text" value={icone} onChange={e=>setIcone(e.target.value)} />
+							<Input type="select" name="icone" value={icone} onChange={e=>setIcone(e.target.value)}>
+								{iconList.map((el, index) => 
+									<option value={el} key={index}><FontAwesomeIcon icon={el} />{el}</option>
+								)}
+							</Input>
 						</FormGroup>
 					</Col>
 					<ColorPicker colorPicked={color} setCheck={setColor} />

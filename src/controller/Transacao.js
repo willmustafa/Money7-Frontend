@@ -1,30 +1,39 @@
 import Request from './index'
 
 export default class Transacao extends Request {
-	constructor(url){
+	constructor(url, auth){
 		super()
 		this.requestPath = '/transacoes'
+		this.auth = auth
 		this.url = url
 	}
 
 	responseStructure(){
 		return [{
-			id: 1,
-			valor: -50,
-			descricao: 'Flores de dia dos namorados',
-			date: '2022-05-27',
-			categoria: {
-				nome: 'Viagem',
-				cor: 'bg-info',
-				icone: 'plane'
-			},
-			conta: {
-				instituicao: {
-					nome: 'Dinheiro',
-					cor: 'bg-success',
-					icone: 'money-bill'
-				}
-			}
+			id: '0ac1c014-6760-43ad-88e4-effb1dd5e944',
+			valor: 10000,
+			descricao: 'Dinheiro de objetivo',
+			date: '2022-07-05',
+			['categoria.id_categoria']: 37,
+			titulo: 'Viagem Japão',
+			id_categoria: 1,
+			cor: 'bg-primary',
+			['categoria.nome']: 'dinheiro guardado',
+			['categoria.cor']: 'bg-success',
+			['categoria.icone']: 'building-columns',
+			['conta.id_conta']: 21,
+			['conta.saldo']: 0,
+			['conta.date']: '2022-06-25',
+			['conta.contaObjetivo']: true,
+			['conta.createdAt']: '2022-06-25T17:09:08.243Z',
+			['conta.updatedAt']: '2022-06-25T17:09:08.243Z',
+			['conta.id_instituicao']: null,
+			['conta.id_users']: 1,
+			['conta.id_cartao']: null,
+			['conta.instituicao.id_instituicao']: null,
+			['conta.instituicao.nome']: null,
+			['conta.instituicao.cor']: null,
+			['conta.instituicao.icone']: null
 		}]
 	}
 

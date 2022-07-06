@@ -6,11 +6,13 @@ import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext'
 import Objetivo from '../controller/Objetivo'
+import useAuth from '../hooks/useAuth'
 
 const ObjetivosView = () => {
-	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth() 
+	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const {date} = useDate()
-	const [dados, setDados] = useState(objetivoClass.responseStructure())   
+	const [dados, setDados] = useState(objetivoClass.responseStructure())  
 
 	useEffect(() => {
 		objetivoClass.get({date: new Date(date).toISOString()})

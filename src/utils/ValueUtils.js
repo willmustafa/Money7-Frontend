@@ -25,10 +25,16 @@ function ChartLabelFormatter(value){
 		return value.label + ': ' + currency_formatter(value.raw)
 }
 
+function fixedValue2Decimals(value){
+	if(value)
+		return Number.parseFloat(value).toFixed(2).replace('.',',')
+}
+
 module.exports = {
 	currency_formatter,
 	currency_formatter_abs,
 	stringToIsoDate,
 	sortByMonth,
-	ChartLabelFormatter
+	ChartLabelFormatter,
+	fixedValue2Decimals
 }

@@ -3,10 +3,13 @@ import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 're
 import ColorPicker from '../../components/UI/Base/Forms/ColorPicker'
 import Categoria from '../../controller/Categoria'
 import Objetivo from '../../controller/Objetivo'
+import useAuth from '../../hooks/useAuth'
 
 const ObjetivoForm = props => {
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
-	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const [check, setCheck] = useState(props.cor ? props.cor : 'bg-primary')
 	const [id_objetivo] = useState(props.id_objetivo ? props.id_objetivo : 0)

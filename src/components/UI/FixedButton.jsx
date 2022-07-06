@@ -5,6 +5,7 @@ import Modal from './Base/Modal/Modal'
 import TransacaoForm from '../../model/Forms/TransacaoForm'
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import ObjetivoForm from '../../model/Forms/ObjetivoForm'
+import GuardarResgatarForm from '../../model/Forms/GuardarResgatarForm'
 
 const CardIcon = styled.div`
 padding: 12px;
@@ -63,25 +64,30 @@ const FixedButton = () => {
 						flip={false}
 					>
 						<DropdownItem data-caller='despesa' onClick={openModalButton} >
-                Nova Despesa
+							Nova Despesa
 						</DropdownItem>
 						<DropdownItem data-caller='receita' onClick={openModalButton}>
-                Nova Receita
+							Nova Receita
 						</DropdownItem>
 						<DropdownItem data-caller='transferencia' onClick={openModalButton}>
-                Nova Transferência
+							Nova Transferência
 						</DropdownItem>
 						<DropdownItem data-caller='objetivo' onClick={openModalButton}>
-                Novo Objetivo
+							Novo Objetivo
+						</DropdownItem>
+						<DropdownItem data-caller='guardar_objetivo' onClick={openModalButton}>
+							Guardar/Resgatar Dinheiro
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
 			</CardIcon>
 			<Modal openModal={openModal} setOpenModal={setOpenModal} title={'Nova Transação'}>
-				{modalConfig != 'objetivo' ? (
+				{modalConfig != 'objetivo' && modalConfig != 'guardar_objetivo' ? (
 					<TransacaoForm modalTypeTitle={modalConfig} />
-				): (
+				): modalConfig == 'objetivo' ? (
 					<ObjetivoForm modalTypeTitle={modalConfig} />
+				): (
+					<GuardarResgatarForm modalTypeTitle={modalConfig} />
 				)}
 			</Modal>
 		</>

@@ -4,9 +4,11 @@ import { Col } from 'reactstrap'
 import { currency_formatter } from '../utils/ValueUtils'
 import { useDate } from '../context/dateContext'
 import Transacao from '../controller/Transacao'
+import useAuth from '../hooks/useAuth'
 
 const Pendencias = () => {
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(transacaoClass.responseStructure_pendencias())

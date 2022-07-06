@@ -5,9 +5,11 @@ import RoundIcon from '../components/UI/Base/Icon/RoundIcon'
 import Modal from '../components/UI/Base/Modal/Modal'
 import CategoriaForm from './Forms/CategoriaForm'
 import Categoria from '../controller/Categoria'
+import useAuth from '../hooks/useAuth'
 
 const CategoriasCard = () => {
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const [openModal, setOpenModal] = useState(false)
 
 	const [dados, setDados] = useState(categoriaClass.responseStructure())

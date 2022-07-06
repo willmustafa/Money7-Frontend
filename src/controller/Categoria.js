@@ -1,9 +1,10 @@
 import Request from './index'
 
 export default class Categoria extends Request {
-	constructor(url){
+	constructor(url, auth){
 		super()
 		this.requestPath = '/categorias'
+		this.auth = auth
 		this.url = url
 	}
 

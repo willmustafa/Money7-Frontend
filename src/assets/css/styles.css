@@ -27,6 +27,7 @@ body {
     font-family: Open Sans, sans-serif;
     font-size: 14px;
     line-height: 1.5;
+    background-color: #f0f5fc;
 }
 
 a{
@@ -67,10 +68,41 @@ label {
     margin-bottom: .5rem;
 }
 
+footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+footer a,
+footer p{
+    color: white;
+    transition: all 0.5s;
+}
+
+footer:hover a,
+footer:hover p{
+    color: var(--bs-cyan) !important
+}
+
 /* Objects */
 .main{
     min-height: 100vh;
     background-color: var(--body-bg);
+}
+
+.container{
+    z-index: 10;
+}
+
+nav.navbar{
+    transition: all 0.4s;
+}
+
+nav.navbar.active{
+    background-color: white;
 }
 
 .main-header{
@@ -132,19 +164,37 @@ tbody td{
     text-transform: capitalize;
 }
 
+.nav-item{
+    margin: 0
+}
+
+.nav-item a{
+    padding: 6px 16px 6px;
+    display: block;
+    text-decoration: none;
+    color: white;
+    transition: all 0.4s;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+nav.navbar.active a{
+    color: black !important;
+}
+
 
 .custom-radios div {
     display: inline-block;
-  }
-  .custom-radios input[type=radio] {
+}
+.custom-radios input[type=radio] {
     display: none;
-  }
-  .custom-radios input[type=radio] + label {
+}
+.custom-radios input[type=radio] + label {
     color: #333;
     font-family: Arial, sans-serif;
     font-size: 14px;
-  }
-  .custom-radios input[type=radio] + label span {
+}
+.custom-radios input[type=radio] + label span {
     display: inline-block;
     width: 40px;
     height: 40px;
@@ -158,14 +208,53 @@ tbody td{
     background-position: center;
     text-align: center;
     line-height: 38px;
-  }
-  .custom-radios input[type=radio] + label span svg {
+}
+.custom-radios input[type=radio] + label span svg {
     opacity: 0;
     transition: all 0.3s ease;
-  }
-  .custom-radios input[type=radio]:checked + label span svg {
+}
+.custom-radios input[type=radio]:checked + label span svg {
     opacity: 1;
-  }
+}
+
+.brand-logo{
+    width: 150px;
+}
+
+.hero {
+    background: var(--linear-background-header);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 180px;
+    padding-bottom: 250px;
+    height: 100vh;
+}
+
+.hero-divider{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.hero-divider-top{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.hero-image{
+    position: relative;
+    z-index: 99;
+}
+
+.hero-image img{
+    width: 40vw;
+}
+
+
 
 /* Utilities */
 .mt-n-7{
@@ -184,9 +273,52 @@ tbody td{
     animation: 0.5s fadeOut forwards;
 }
 
+.hero h6{
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+    margin-bottom: 27px;
+}
+
+.hero h1{
+    font-size: 54px;
+    line-height: 64px;
+    font-weight: 700;  
+    margin-bottom: 21px;
+}
+
+.hero p{
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.hero-badge{
+    max-width: 200px;
+    margin-right: 2rem;
+    margin-top: 2rem;
+}
+
+.title{
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.subtitle{
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.description{
+    font-size: 1.25rem;
+}
+
 /* Color */
 .bg-gradient-default {
     background: var(--linear-background);
+}
+
+.bg-linear-gradient-default {
+    background: var(--linear-background-header);
 }
 
 /* Animations */

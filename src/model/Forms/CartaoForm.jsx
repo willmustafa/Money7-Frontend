@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
 import Instituicao from '../../controller/Instituicao'
 import Cartao from '../../controller/Cartao'
+import useAuth from '../../hooks/useAuth'
 
 const CartaoForm = props => {
-	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL)
-	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL)
+	const {auth} = useAuth()
+	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const id_cartao = props.id_cartao ? props.id_cartao : 0
 	const [id_instituicao, setIdConta] = useState(props.id_instituicao ? props.id_instituicao : 0)

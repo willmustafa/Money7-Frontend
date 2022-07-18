@@ -47,7 +47,7 @@ const Header = () => {
 						</div>
 					</Col>
 					<Col>
-						<Nav className="align-items-center d-none d-md-flex float-end" navbar>
+						<Nav className="align-items-center d-none d-md-flex float-end dashboard" navbar>
 							<UncontrolledDropdown nav>
 								<DropdownToggle nav>
 									<Media className="d-flex align-items-center">

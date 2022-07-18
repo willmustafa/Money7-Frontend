@@ -3,9 +3,12 @@ import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 're
 import Conta from '../../controller/Conta'
 import Instituicao from '../../controller/Instituicao'
 import useAuth from '../../hooks/useAuth'
+import { useToast } from '../../context/toastContext'
+
 
 const ContaForm = props => {
 	const {auth} = useAuth()
+	const {setToastObj} = useToast()
 	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
@@ -27,13 +30,12 @@ const ContaForm = props => {
 		const data = {
 			date,
 			saldo,
-			id_instituicao,
-			id_users: 1 // Alterar
+			id_instituicao
 		}
 
 		await contaClass.save(id_conta, data, exclude)
-			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
 

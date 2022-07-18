@@ -9,9 +9,11 @@ import Transacao from '../../controller/Transacao'
 import { capitalize } from '../../utils/StringUtils'
 import CurrencyInput from '../../components/UI/Base/Forms/CurrencyInput'
 import useAuth from '../../hooks/useAuth'
+import { useToast } from '../../context/toastContext'
 
 const TransacaoForm = (props) => {
 	const {auth} = useAuth()
+	const {setToastObj} = useToast()
 	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
@@ -32,8 +34,9 @@ const TransacaoForm = (props) => {
 	const [valor, setValor] = useState(propsData.valor ? propsData.valor : '0.00')
 	const [date, setDate] = useState(propsData.date ? propsData.date : new Date())
 	const [descricao, setDescricao] = useState(propsData.descricao ? propsData.descricao: '')
-	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 0)
-	const [conta, setConta] = useState(propsData.conta ? propsData.conta : 0)
+	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 1)
+	const [conta, setConta] = useState(propsData.conta ? propsData.conta : 1)
+	const [conta2, setConta2] = useState(propsData.conta2 ? propsData.conta2 : 1)
 
 	const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
 	const [contas, setContas] = useState(contaClass.responseStructure())
@@ -41,32 +44,52 @@ const TransacaoForm = (props) => {
 
 	useEffect(()=>{
 		categoriaClass.get()
-			.then(res => setCategorias(res))
+			.then(res => {
+				setCategorias(res)
+				if(!propsData.categoria) setCategoria(res[0].id_categoria)
+			})
 			.catch(err => console.error(err))
 	},[openModalCategoria])
 
 	useEffect(()=>{
-		contaClass.get_contaCartao()
-			.then(res => setContas(res))
-			.catch(err => console.error(err))
-	},[openModalConta])
+		if(modalTypeTitle != 'transferencia'){
+			contaClass.get_contaCartao()
+				.then(res => {
+					setContas(res)
+					if(!propsData.conta) setConta(res[0].id_conta)
+				})
+				.catch(err => console.error(err))
+		} else {
+			contaClass.get_contaCartao({contaObjetivo: true})
+				.then(res => {
+					setContas(res)
+					if(!propsData.conta) setConta(res[0].id_conta)
+				})
+				.catch(err => console.error(err))
+		}
 
+	},[openModalConta])
 
 	async function save(event, exclude){
 		event.preventDefault()
+		
+		let valorFormatted = valor.indexOf(',') == -1 ? valor.replace(/[^\d]/g, '') : valor.replace(/[^\d]/g, '')/100
+		if (propsData.id == 0 && modalTypeTitle == 'despesa' && valorFormatted >= 0 ) valorFormatted = valorFormatted*(-1)
+
 		const data = {
 			date,
 			id_categoria: categoria,
 			id_conta: conta,
 			descricao,
 			status: true,
-			valor: valor.replace(/[^\d]/g, '')/100,
-			id_users: 1 // Alterar
+			valor: valor.indexOf('-') == -1 ? valorFormatted : valorFormatted* -1,
 		}
 
+		if(modalTypeTitle == 'transferencia') data.id_conta2 = conta2
+
 		await transacaoClass.save(propsData.id, data, exclude)
-			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
 
@@ -114,17 +137,22 @@ const TransacaoForm = (props) => {
 					): ''}
 					<Col lg="12">
 						<FormGroup>
-							<Label>{modalTypeTitle == 'transferencia' ? 'Saiu da ' : ''}Conta</Label>
+							<Label>{modalTypeTitle == 'transferencia' ? 'Saiu da ' : ''}Conta / Cartão / Objetivo</Label>
 							<InputGroup>
 								<Input type="select" name='conta' value={conta} onChange={e=>setConta(e.target.value)}>
 									<optgroup label="Contas Bancárias">
-										{contas.filter(el => !el.cartao).map(el => 
+										{contas.filter(el => !el.cartao && !el.contaObjetivo).map(el => 
 											<option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
 										)}      
 									</optgroup>
 									<optgroup label="Cartões de Crédito">
-										{contas.filter(el => el.cartao).map(el => 
-											<option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
+										{contas.filter(el => el.cartao && !el.contaObjetivo).map(el => 
+											<option value={el.id_conta} key={el.id_conta}>Cartão: {el.instituicao.nome}</option>
+										)}  
+									</optgroup>
+									<optgroup label="Objetivo">
+										{contas.filter(el => el.contaObjetivo).map(el => 
+											<option value={el.id_conta} key={el.id_conta}>{el.Objetivos[0].titulo}</option>
 										)}  
 									</optgroup>
 								</Input>
@@ -138,12 +166,24 @@ const TransacaoForm = (props) => {
 					{modalTypeTitle == 'transferencia' ? (
 						<Col lg="12">
 							<FormGroup>
-								<Label>Entrou na Conta</Label>
+								<Label>Entrou na Conta / Cartão / Objetivo</Label>
 								<InputGroup>
-									<Input type="select" name='conta' value={conta} onChange={e=>setConta(e.target.value)}>
-										{contas.map(el => 
-											<option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
-										)}
+									<Input type="select" name='conta' value={conta2} onChange={e=>setConta2(e.target.value)}>
+										<optgroup label="Contas Bancárias">
+											{contas.filter(el => !el.cartao && !el.contaObjetivo).map(el => 
+												<option value={el.id_conta} key={el.id_conta}>{el.instituicao.nome}</option>
+											)}      
+										</optgroup>
+										<optgroup label="Cartões de Crédito">
+											{contas.filter(el => el.cartao && !el.contaObjetivo).map(el => 
+												<option value={el.id_conta} key={el.id_conta}>Cartão: {el.instituicao.nome}</option>
+											)}  
+										</optgroup>
+										<optgroup label="Objetivo">
+											{contas.filter(el => el.contaObjetivo).map(el => 
+												<option value={el.id_conta} key={el.id_conta}>{el.Objetivos[0].titulo}</option>
+											)}  
+										</optgroup>
 									</Input>
 									<Button className='col-4' onClick={() =>setOpenModalConta(true)}>Nova</Button>
 								</InputGroup>

@@ -3,12 +3,13 @@ import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 're
 import ColorPicker from '../../components/UI/Base/Forms/ColorPicker'
 import Categoria from '../../controller/Categoria'
 import { capitalize } from '../../utils/StringUtils'
-import {iconList} from '../../components/UI/Base/Icon/iconList'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useAuth from '../../hooks/useAuth'
+import IconPicker from '../../components/UI/Base/Forms/IconPicker'
+import { useToast } from '../../context/toastContext'
 
 const CategoriaForm = (props) => {
 	const {auth} = useAuth()
+	const {setToastObj} = useToast()
 	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const propsData = props.data ? props.data : {
@@ -19,8 +20,8 @@ const CategoriaForm = (props) => {
 	}
 
 	const [nome, setNome] = useState(propsData.nome ? propsData.nome : '')
-	const [tipo, setTipo] = useState(propsData.tipo ? capitalize(propsData.tipo) : '')
-	const [icone, setIcone] = useState(propsData.iconeArray[1] ? propsData.iconeArray[1] :'')
+	const [tipo, setTipo] = useState(propsData.tipo ? capitalize(propsData.tipo) : 'Gastos Essenciais')
+	const [icone, setIcone] = useState(propsData.iconeArray[1] ? propsData.iconeArray[1] :'plane')
 	const [color, setColor] = useState(propsData.iconeArray[0] ? propsData.iconeArray[0] : 'bg-primary')
 
 
@@ -35,8 +36,8 @@ const CategoriaForm = (props) => {
 		}
 
 		await categoriaClass.save(propsData.id_categoria, data, exclude)
-			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
 
@@ -63,15 +64,16 @@ const CategoriaForm = (props) => {
 					</Col>
 					<Col lg="12">
 						<FormGroup>
-							<Label>Ícone</Label>
-							<Input type="select" name="icone" value={icone} onChange={e=>setIcone(e.target.value)}>
-								{iconList.map((el, index) => 
-									<option value={el} key={index}><FontAwesomeIcon icon={el} />{el}</option>
-								)}
-							</Input>
+							<Label>Cor</Label>
+							<ColorPicker colorPicked={color} setCheck={setColor} />
 						</FormGroup>
 					</Col>
-					<ColorPicker colorPicked={color} setCheck={setColor} />
+					<Col lg="12">
+						<FormGroup>
+							<Label>Ícone</Label>
+							<IconPicker iconPicked={icone} setCheck={setIcone} colorPicked={color} />
+						</FormGroup>
+					</Col>
 				</Row>
 			</div>
 			<ModalFooter>

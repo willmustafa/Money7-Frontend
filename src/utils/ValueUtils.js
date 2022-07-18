@@ -1,9 +1,9 @@
 function currency_formatter_abs(value){
-	return Math.abs(Number.parseFloat(value)).toLocaleString('pt-BR', {minimumFractionDigits: 2, currency: 'BRL', style: 'currency'})
+	return Math.abs(Number.parseFloat(value)).toLocaleString('pt-BR', {minimumFractionDigits: 2, currency: 'BRL', style: 'currency', useGrouping: true})
 }
 
 function currency_formatter(value){
-	return Number.parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits: 2, currency: 'BRL', style: 'currency'})
+	return Number.parseFloat(value).toLocaleString('pt-BR', {minimumFractionDigits: 2, currency: 'BRL', style: 'currency', useGrouping: true})
 }
 
 function stringToIsoDate(date){
@@ -22,7 +22,7 @@ function sortByMonth(arr) {
 
 function ChartLabelFormatter(value){
 	if(value)
-		return value.label + ': ' + currency_formatter(value.raw)
+		return value.label + ': ' + currency_formatter_abs(value.raw)
 }
 
 function fixedValue2Decimals(value){

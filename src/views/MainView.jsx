@@ -4,15 +4,17 @@ import FixedButton from '../components/UI/FixedButton'
 import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Container } from 'reactstrap'
+import { toast, ToastContainer } from 'react-toastify'
 
 import DateProvider from '../context/dateContext'
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css' 
 import useAuth from '../hooks/useAuth'
+import {useToast} from '../context/toastContext'
 
 const MainView = () => {
 	const { auth } = useAuth()
 	const location = useLocation()
+	const {toastObj} = useToast()
 
 	const [displayLocation, setDisplayLocation] = useState(location)
 	const [transitionStage, setTransistionStage] = useState('fadeIn')
@@ -20,6 +22,10 @@ const MainView = () => {
 	useEffect(() => {
 		if (location !== displayLocation) setTransistionStage('fadeOut')
 	}, [location, displayLocation])
+
+	useEffect(()=>{
+		toast(toastObj.text, {type: toastObj.type})
+	}, [toastObj])
 
 	return (
 		<DateProvider>
@@ -35,16 +41,16 @@ const MainView = () => {
 							}
 						}}
 					>
-						<ToastContainer />
 						{auth?.accessToken
 							? (<Outlet />): (auth?.user
 								? (<Navigate to="/unauthorized" state={{ from: location }} replace />)
 								: (<Navigate to="/" state={{ from: location }} replace />))
 						}
-						
+							
 					</div>
 				</div>
 				<FixedButton />
+				<ToastContainer/>
 			</Container>
 		</DateProvider>
 	)

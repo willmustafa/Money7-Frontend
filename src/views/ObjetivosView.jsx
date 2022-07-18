@@ -7,18 +7,21 @@ import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext'
 import Objetivo from '../controller/Objetivo'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const ObjetivosView = () => {
 	const {auth} = useAuth() 
+	const {toastObj} = useToast()
 	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const {date} = useDate()
-	const [dados, setDados] = useState(objetivoClass.responseStructure())  
+	const [dados, setDados] = useState(objetivoClass.responseStructure())
+	const [openModal, setOpenModal] = useState(false)
 
 	useEffect(() => {
 		objetivoClass.get({date: new Date(date).toISOString()})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	}, [date])
+	}, [date, toastObj])
 	return (
 		<>
 			<div className="main-header">
@@ -32,7 +35,7 @@ const ObjetivosView = () => {
 						/>
 					</Col>
 					{dados.map((item) => {
-						return <ObjetivosCard {...item} key={item.id_objetivo} />
+						return <ObjetivosCard {...item} key={item.id_objetivo} setOpenModal={setOpenModal} openModal={openModal} />
 					})}
 				</Row>
 			</section>
@@ -42,7 +45,6 @@ const ObjetivosView = () => {
 
 const ObjetivosCard = item => {
 	const objetivoClass = new Objetivo()
-	const [openModal, setOpenModal] = useState(false)
 
 	return (
 		<Col xl="4" md="12" className='mb-md-4'>
@@ -55,11 +57,11 @@ const ObjetivosCard = item => {
 				max={item.valor_total}
 				dataConclusao={new Date(item.date).toLocaleDateString('pt-br')}
 				cardClassName="flex-row align-items-center"
-				onClick={() => setOpenModal(true)}
+				onClick={() => item.setOpenModal(true)}
 				cartao
 				footerLeft={`${objetivoClass.precisaEconomizar(item.saldo_atual, item.valor_total, item.date)}`}
 			/>
-			<Modal openModal={openModal} setOpenModal={setOpenModal} title={'Editar Objetivo'}>
+			<Modal openModal={item.openModal} setOpenModal={item.setOpenModal} title={'Editar Objetivo'}>
 				<ObjetivoForm {...item} />
 			</Modal>
 		</Col> 

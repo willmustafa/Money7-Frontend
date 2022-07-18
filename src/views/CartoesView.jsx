@@ -7,9 +7,11 @@ import { Col, Row } from 'reactstrap'
 import { useDate } from '../context/dateContext'
 import Cartao from '../controller/Cartao'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const CartoesView = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
@@ -19,7 +21,7 @@ const CartoesView = () => {
 		cartaoClass.get({date: new Date(date).toISOString()})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	}, [date])
+	}, [date, toastObj])
     
 	return (
 		<>

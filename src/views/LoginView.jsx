@@ -15,10 +15,12 @@ const LoginView = () => {
 
 	const errRef = useRef()
 	
+	const [username, setUsername] = useState('')
 	const [user, setUser] = useState('')
 	const [pwd, setPwd] = useState('')
 	const [errMsg, setErrMsg] = useState('')
 	const [modal, setModal] = useState(false)
+	const [modalRegister, setModalRegister] = useState(false)
 	const [scroll, setScroll] = useState(false)
 
 	const changeHeaderBackground = () => {
@@ -30,8 +32,6 @@ const LoginView = () => {
 	}
 	
 	window.addEventListener('scroll', changeHeaderBackground)
-
-
 
 	useEffect(() => {
 		setErrMsg('')
@@ -55,6 +55,31 @@ const LoginView = () => {
 			setUser('')
 			setPwd('')
 			navigate('/dashboard', { replace: true })
+		} catch (err) {
+			if (!err?.response) {
+				setErrMsg('No Server Response')
+			} else if (err.response?.status === 400) {
+				setErrMsg('Missing Username or Password')
+			} else if (err.response?.status === 401) {
+				setErrMsg('Unauthorized')
+			} else {
+				setErrMsg('Login Failed')
+			}
+			errRef.current.focus()
+		}
+	}
+
+	const handleSubmitRegister = async (e) => {
+		e.preventDefault()
+
+		try {
+			const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/register`,
+				JSON.stringify({ user, pwd, username }),
+				{
+					headers: { 'Content-Type': 'application/json' },
+				}
+			)
+			console.log(JSON.stringify(response?.data))
 		} catch (err) {
 			if (!err?.response) {
 				setErrMsg('No Server Response')
@@ -108,6 +133,11 @@ const LoginView = () => {
 									outline
 									onClick={()=>setModal(true)}
 								>Login</Button>
+								<Button
+									color={scroll ? 'dark' : 'light'}
+									outline
+									onClick={()=>setModalRegister(true)}
+								>Registrar-se</Button>
 							</Nav>
 						</Collapse>
 					</Container>
@@ -200,6 +230,41 @@ const LoginView = () => {
 				<Container>
 					<Col>
 						<Form onSubmit={handleSubmit} method="POST">
+							<Label>Email</Label>
+							<Input 
+								name="email" 
+								type='email' 
+								value={user} 
+								onChange={el => setUser(el.target.value)}
+								required
+							/>
+							<Label>Senha</Label>
+							<Input 
+								name="password" 
+								type='password' 
+								value={pwd} 
+								onChange={el => setPwd(el.target.value)} 
+								required
+							/>
+							<Button className='mt-4' color='primary'>Enviar</Button>
+						</Form>
+						<p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">{errMsg}</p>
+					</Col>
+				</Container>
+			</Modal>
+
+			<Modal openModal={modalRegister} setOpenModal={setModalRegister} title={'Registrar'}>
+				<Container>
+					<Col>
+						<Form onSubmit={handleSubmitRegister} method="POST">
+							<Label>Nome</Label>
+							<Input 
+								name="nome" 
+								type='text' 
+								value={username} 
+								onChange={el => setUsername(el.target.value)}
+								required
+							/>
 							<Label>Email</Label>
 							<Input 
 								name="email" 

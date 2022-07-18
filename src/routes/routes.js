@@ -10,6 +10,7 @@ import DashboardView from '../views/DashboardView'
 import NotFoundView from '../views/NotFoundView'
 import UserView from '../views/UserView'
 import TestView from '../views/TestView'
+import ImportView from '../views/ImportView'
 
 export const routesArray = [
 	{
@@ -25,7 +26,7 @@ export const routesArray = [
 			{
 				path: '',
 				name: 'Dashboard',
-				icon: 'list-check',
+				icon: 'display',
 				element: <DashboardView />
 			},
 			{
@@ -57,6 +58,12 @@ export const routesArray = [
 				name: 'Categorias',
 				icon: 'tags',
 				element: <CategoriasView />
+			},
+			{
+				path: 'importar',
+				name: 'Importar Dados',
+				icon: 'cloud-arrow-up',
+				element: <ImportView />
 			},
 			{
 				path: 'test',

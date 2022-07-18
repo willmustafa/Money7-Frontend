@@ -6,19 +6,21 @@ import { currency_formatter } from '../utils/ValueUtils'
 import { useDate } from '../context/dateContext'
 import Conta from '../controller/Conta'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const ContasCard = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(contaClass.responseStructure())
 
 	useEffect(() => {
-		contaClass.get_saldoAtual({date: new Date(date).toISOString()})
+		contaClass.get_saldoAtual({date: new Date(date).toISOString(), limit: 4})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	}, [date])
+	}, [date, toastObj])
 
 	return (
 		<Card title="Minhas Contas">
@@ -40,7 +42,7 @@ const ContaInfo = props => {
 			/>
 			<Col md="12" className='d-flex mb-4'>
 				<h4>Saldo Atual</h4>
-				<h4 className='ms-auto text-success'>{currency_formatter(props.saldo_atual)}</h4>
+				<h4 className='ms-auto text-success'>{currency_formatter(props.saldo_atual+props.saldo_objetivo)}</h4>
 			</Col>
 		</>
 	)

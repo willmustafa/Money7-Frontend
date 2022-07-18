@@ -1,3 +1,4 @@
+import { currency_formatter_abs } from '../utils/ValueUtils'
 import Request from './index'
 
 export default class Objetivo extends Request {
@@ -29,7 +30,7 @@ export default class Objetivo extends Request {
 	precisaEconomizar(atual, final, data){
 		const diff = final - atual
 		let diffMonth = (new Date(data).getMonth()) - (new Date().getMonth())
-		let stringSucesso = `Você deve economizar R$ ${Number.parseFloat(diff/diffMonth).toFixed(2)} por mês.`
+		let stringSucesso = `Você deve economizar ${currency_formatter_abs(diff/diffMonth)} por mês.`
         
 		if(diffMonth <= 0 || Number.parseFloat(diff/diffMonth) <= 0){
 			return 'Objetivo finalizado!'

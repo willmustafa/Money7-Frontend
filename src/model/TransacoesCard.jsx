@@ -10,9 +10,11 @@ import Transacao from '../controller/Transacao'
 import {stringToIsoDate} from '../utils/ValueUtils'
 import GuardarResgatarForm from './Forms/GuardarResgatarForm'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const TransacoesCard = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const [openModalTransacao, setOpenModalTransacao] = useState(false)
@@ -25,7 +27,7 @@ const TransacoesCard = () => {
 		transacaoClass.get({date: new Date(date).toISOString()})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	},[date])
+	},[date, toastObj])
 
 	function editRow(event){
 		const eventCell = Array.from(event.currentTarget.cells).map(item=>item.dataset.value)

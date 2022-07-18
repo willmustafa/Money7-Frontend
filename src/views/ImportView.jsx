@@ -1,44 +1,39 @@
 import PlusCardModalOpenner from '../components/UI/PlusCardModalOpenner'
-import ContaForm from '../model/Forms/ContaForm'
 import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'reactstrap'
-import { currency_formatter } from '../utils/ValueUtils'
 import { useDate } from '../context/dateContext'
 import Conta from '../controller/Conta'
 import useAuth from '../hooks/useAuth'
-import { useToast } from '../context/toastContext'
+import ImportForm from '../model/Forms/ImportForm'
 
-const ContasView = () => {
+const ImportView = () => {
 	const {auth} = useAuth()
-	const {toastObj} = useToast()
 	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth.accessToken)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(contaClass.responseStructure())
     
 	useEffect(() => {
-		contaClass.get_saldoAtual({
-			date: new Date(date).toISOString(),
-			limit: 50
-		})
+		contaClass.get_contaCartao()
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
 
-	}, [date, toastObj])
-    
+	}, [date])
+
 	return (
 		<>
 			<div className="main-header">
 			</div>
 			<section className='mt-n-7 container'>
 				<Row className="mb-5">
-					<Col xl="4" md="12" className='mb-md-4'>
-						<PlusCardModalOpenner 
-							modalTitle='Nova Conta'
-							form={<ContaForm />}
-						/>
-					</Col>
-					{dados.map((item, index) => {
+					<h1 className='hero-image fw-bold'>Contas</h1>
+					{dados.filter(el => !el.cartao).map((item, index) => {
+						return <ContaInfo {...item} key={index} />
+					})}
+				</Row>
+				<Row className="mb-5">
+					<h1 className='fw-bold'>Cartões</h1>
+					{dados.filter(el => el.cartao).map((item, index) => {
 						return <ContaInfo {...item} key={index} />
 					})}
 				</Row>
@@ -55,23 +50,11 @@ const ContaInfo = props => {
 				icon={props.instituicao.icone}
 				bgColor={props.instituicao.cor}
 				modalTitle='Editar Conta'
-				form={<ContaForm {...props} />}
+				form={<ImportForm {...props} />}
 			>
-				<Row className='mt-4'>
-					<Col className='d-flex'>
-						<h4>Saldo Atual</h4>
-						<h4 className='ms-auto text-success'>{currency_formatter(props.saldo_atual+props.saldo_objetivo)}</h4>
-					</Col>
-				</Row>
-				<Row className='mt-4'>
-					<Col className='d-flex'>
-						<h4>Separado para Objetivo</h4>
-						<h4 className='ms-auto text-success'>{currency_formatter(props.saldo_objetivo)}</h4>
-					</Col>
-				</Row>
 			</PlusCardModalOpenner>
 		</Col>
 	)
 }
 
-export default ContasView
+export default ImportView

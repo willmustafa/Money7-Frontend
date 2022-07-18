@@ -4,9 +4,11 @@ import Card from '../components/UI/Base/Card/Card'
 import { useDate } from '../context/dateContext'
 import Objetivo from '../controller/Objetivo'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const ObjetivosCard = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const {date} = useDate()
 	const [dados, setDados] = useState(objetivoClass.responseStructure())
@@ -15,7 +17,7 @@ const ObjetivosCard = () => {
 		objetivoClass.get({date: new Date(date).toISOString()})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	}, [date])
+	}, [date,toastObj])
     
 	return (
 		<Card title={'Objetivos'}>

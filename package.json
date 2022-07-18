@@ -38,7 +38,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "api-front": "react-scripts start & node ../Money7-API-RESTFUL/src/index.js"
   },
   "browserslist": {
     "production": [

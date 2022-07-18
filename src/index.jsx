@@ -14,6 +14,7 @@ import './assets/css/icones.css'
 // Views
 import App from './App'
 import { AuthProvider } from './context/AuthProvider'
+import ToastProvider from './context/toastContext'
 
 // Font Awesome Globally
 library.add(fas)
@@ -26,7 +27,9 @@ root.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<AuthProvider>
-				<App />
+				<ToastProvider>
+					<App />
+				</ToastProvider>
 			</AuthProvider>
 		</BrowserRouter>
 	</React.StrictMode>

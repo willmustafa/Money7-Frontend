@@ -6,9 +6,11 @@ import CurrencyInput from '../../components/UI/Base/Forms/CurrencyInput'
 import Objetivo from '../../controller/Objetivo'
 import { fixedValue2Decimals } from '../../utils/ValueUtils'
 import useAuth from '../../hooks/useAuth'
+import { useToast } from '../../context/toastContext'
 
 const GuardarResgatarForm = (props) => {
 	const {auth} = useAuth()
+	const {setToastObj} = useToast()
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
 
@@ -23,25 +25,21 @@ const GuardarResgatarForm = (props) => {
 
 	const [valor, setValor] = useState(propsData.valor ? fixedValue2Decimals(propsData.valor) : '0.00')
 	const [date, setDate] = useState(propsData.date ? propsData.date : new Date())
-	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 37)
+	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 'dinheiro guardado')
 	const [conta, setConta] = useState(propsData.conta ? propsData.conta : 1)
 
 
 	const [categorias] = useState([{
-		id_categoria: 37,
+		id_categoria: 'dinheiro guardado',
 		nome: 'dinheiro guardado'
 	},
 	{
-		id_categoria: 32,
+		id_categoria: 'dinheiro resgatado',
 		nome: 'dinheiro resgatado'
 	}])
 	const [contas, setContas] = useState(objetivoClass.responseStructure())
 
 	useEffect(()=>{
-		// contaClass.get_contaCartao()
-		// 	.then(res => setContas(res))
-		// 	.catch(err => console.error(err))
-
 		objetivoClass.get()
 			.then(res => setContas(res))
 			.catch(err => console.error(err))
@@ -50,10 +48,10 @@ const GuardarResgatarForm = (props) => {
 
 	async function save(event, exclude){
 		event.preventDefault()
-		let valorFormatado = valor.replace(/[^\d]/g, '')/100
+		let valorFormatado = valor.indexOf(',') == -1 ? valor.replace(/[^\d]/g, '') : valor.replace(/[^\d]/g, '')/100
 
-		if(Number.parseFloat(valor) > 0 && categoria == 32) valorFormatado = valorFormatado*(-1)
-		if(Number.parseFloat(valor) < 0 && categoria == 37) valorFormatado = Math.abs(valorFormatado)
+		if(Number.parseFloat(valor) > 0 && categoria == 'dinheiro resgatado') valorFormatado = valorFormatado*(-1)
+		if(Number.parseFloat(valor) < 0 && categoria == 'dinheiro guardado') valorFormatado = Math.abs(valorFormatado)
 
 		const data = {
 			date,
@@ -62,11 +60,10 @@ const GuardarResgatarForm = (props) => {
 			descricao: 'Dinheiro de objetivo',
 			status: true,
 			valor: valorFormatado,
-			id_users: 1 // Alterar
 		}
 		await transacaoClass.save(propsData.id, data, exclude)
-			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
 

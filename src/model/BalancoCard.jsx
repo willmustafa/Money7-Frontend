@@ -4,9 +4,11 @@ import Line from '../components/Charts/Line/Line'
 import { useDate } from '../context/dateContext'
 import Transacao from '../controller/Transacao'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const BalancoCard = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
@@ -27,7 +29,7 @@ const BalancoCard = () => {
 		fetchData()
 			.catch(err => console.error(err))
 
-	}, [date])
+	}, [date, toastObj])
 
 	return (
 		<Card title="Balanço" smallTitle="Relatório" bgColor="bg-gradient-default">

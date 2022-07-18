@@ -4,9 +4,11 @@ import InfoCard from '../components/UI/Base/Card/InfoCard/InfoCard'
 import { useDate } from '../context/dateContext'
 import Transacao from '../controller/Transacao'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const MonthInfoCards = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const {date} = useDate()
@@ -16,7 +18,7 @@ const MonthInfoCards = () => {
 		transacaoClass.get_somaMensal({date: new Date(date).toISOString()})
 			.then(res => setDados(res[0]))
 			.catch(err => console.error(err))
-	}, [date])
+	}, [date, toastObj])
 
 	return (
 		<Container fluid>

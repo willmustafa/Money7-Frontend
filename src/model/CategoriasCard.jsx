@@ -6,9 +6,11 @@ import Modal from '../components/UI/Base/Modal/Modal'
 import CategoriaForm from './Forms/CategoriaForm'
 import Categoria from '../controller/Categoria'
 import useAuth from '../hooks/useAuth'
+import { useToast } from '../context/toastContext'
 
 const CategoriasCard = () => {
 	const {auth} = useAuth()
+	const {toastObj} = useToast()
 	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const [openModal, setOpenModal] = useState(false)
 
@@ -18,7 +20,7 @@ const CategoriasCard = () => {
 		categoriaClass.get()
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	},[])
+	},[toastObj])
 
 	const [rowData, setRowData] = useState({})
 	function editRow(event){

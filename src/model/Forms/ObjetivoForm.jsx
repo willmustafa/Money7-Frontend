@@ -4,9 +4,12 @@ import ColorPicker from '../../components/UI/Base/Forms/ColorPicker'
 import Categoria from '../../controller/Categoria'
 import Objetivo from '../../controller/Objetivo'
 import useAuth from '../../hooks/useAuth'
+import { capitalize } from '../../utils/StringUtils'
+import { useToast } from '../../context/toastContext'
 
 const ObjetivoForm = props => {
 	const {auth} = useAuth()
+	const {setToastObj} = useToast()
 
 	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
@@ -35,11 +38,10 @@ const ObjetivoForm = props => {
 			date,
 			id_categoria,
 			cor: check,
-			id_users: 1 // Alterar
 		}
 		await objetivoClass.save(id_objetivo, data, exclude)
-			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
 
@@ -62,7 +64,7 @@ const ObjetivoForm = props => {
 										value={el.id_categoria} 
 										key={el.id_categoria} 
 									>
-										{el.nome}
+										{capitalize(el.nome)}
 									</option>
 								)}
 							</Input>

@@ -3,7 +3,6 @@ import ContasCard from '../model/ContasCard'
 import DespesaCategoriaCard from '../model/DespesaCategoriaCard'
 import MonthInfoCards from '../model/MonthInfoCards'
 import ObjetivosCard from '../model/ObjetivosCard'
-import Pendencias from '../model/PendenciasCard'
 import ReceitaDespesaCard from '../model/ReceitaDespesaCard'
 import ReceitasCategoriaCard from '../model/ReceitasCategoriaCard'
 import React from 'react'
@@ -42,9 +41,6 @@ const DashboardView = () => {
 				<Row className="mb-xl-2">
 					<Col xl="6" md="12" className='mb-md-4'>
 						<ObjetivosCard />
-					</Col>
-					<Col xl="6" md="12" className='mb-md-4'>
-						<Pendencias />
 					</Col>
 				</Row>
 			</section>

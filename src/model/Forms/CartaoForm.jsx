@@ -4,9 +4,11 @@ import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 're
 import Instituicao from '../../controller/Instituicao'
 import Cartao from '../../controller/Cartao'
 import useAuth from '../../hooks/useAuth'
+import { useToast } from '../../context/toastContext'
 
 const CartaoForm = props => {
 	const {auth} = useAuth()
+	const {setToastObj} = useToast()
 	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL, auth?.accessToken)
 
@@ -34,8 +36,8 @@ const CartaoForm = props => {
 		}
 
 		await cartaoClass.save(id_cartao, data, exclude)
-			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
     

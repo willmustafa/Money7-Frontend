@@ -75,9 +75,9 @@ const FixedButton = () => {
 						<DropdownItem data-caller='objetivo' onClick={openModalButton}>
 							Novo Objetivo
 						</DropdownItem>
-						<DropdownItem data-caller='guardar_objetivo' onClick={openModalButton}>
+						{/* <DropdownItem data-caller='guardar_objetivo' onClick={openModalButton}>
 							Guardar/Resgatar Dinheiro
-						</DropdownItem>
+						</DropdownItem> */}
 					</DropdownMenu>
 				</Dropdown>
 			</CardIcon>

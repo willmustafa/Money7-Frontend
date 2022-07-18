@@ -1,15 +1,19 @@
 import React, { createContext, useState, useContext } from 'react'
+import { toast } from 'react-toastify'
 
 const ToastContext = createContext()
 
 export default function ToastProvider({children}){
-	const [toast, setToast] = useState(false)
+	const [toastObj, setToastObj] = useState({
+		type: toast.TYPE.INFO,
+		text: 'Olá'
+	})
 
 	return (
 		<ToastContext.Provider
 			value={{
-				toast,
-				setToast
+				toastObj,
+				setToastObj
 			}}
 		>
 			{children}
@@ -19,6 +23,6 @@ export default function ToastProvider({children}){
 
 export function useToast(){
 	const context = useContext(ToastContext)
-	const {toast, setToast} = context
-	return {toast, setToast}
+	const {toastObj, setToastObj} = context
+	return {toastObj, setToastObj}
 }

@@ -42,4 +42,25 @@ export default class Request {
 		const response = await this.executeRequest('GET', this._pathCreator(), null, params)
 		return response.data
 	}
+
+	async save_file(id_conta, files, exclude){
+		const formData = new FormData()
+		for (const file of files){
+			formData.append('file', file)
+		}
+		formData.append('id_conta', id_conta)
+		if(exclude) formData.append('excluir', exclude)
+
+		const config = {
+			headers: {
+				'content-type': 'multipart/form-data',
+				Authorization: `Bearer ${this.auth}`
+			},
+			responseType: 'json',
+			timeout: 9000000,
+			withCredentials: true
+		}
+		console.log(this._pathCreator())
+		return axios.post(this._pathCreator(), formData, config).then(res => res.data)
+	}
 }

@@ -30,7 +30,7 @@ const Header = () => {
 					<Col className="d-table">
 						<Link
 							className="d-table-cell h4 mb-0 text-white text-uppercase align-middle"
-							to="/"
+							to="/dashboard"
 						>
 							{location.pathname == '/dashboard' ? 'Dashboard' : routesArray
 								.filter(el => el.path == 'dashboard')

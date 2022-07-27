@@ -2,7 +2,7 @@ import Card from '../components/UI/Base/Card/Card'
 import React, { useEffect, useState } from 'react'
 import { useDate } from '../context/dateContext'
 import { currency_formatter, fixedValue2Decimals } from '../utils/ValueUtils'
-import { Table } from 'reactstrap'
+import { Badge, Table } from 'reactstrap'
 import RoundIcon from '../components/UI/Base/Icon/RoundIcon'
 import Modal from '../components/UI/Base/Modal/Modal'
 import TransacaoForm from './Forms/TransacaoForm'
@@ -37,9 +37,10 @@ const TransacoesCard = () => {
 			contaObjetivo: eventCell[1],
 			date: eventCell[2],
 			descricao: eventCell[3],
-			categoria: eventCell[4],
-			conta: eventCell[5],
-			valor: fixedValue2Decimals(eventCell[6])
+			tag: eventCell[4],
+			categoria: eventCell[5],
+			conta: eventCell[6],
+			valor: fixedValue2Decimals(eventCell[7]),
 		}
 		setRowData(rowInfo)
 
@@ -63,6 +64,7 @@ const TransacoesCard = () => {
 							<th className='d-none'>id</th>
 							<th>Data</th>
 							<th>Descrição</th>
+							<th className='d-none'>Tag</th>
 							<th>Categoria</th>
 							<th>Conta</th>
 							<th>Valor</th>
@@ -76,7 +78,13 @@ const TransacoesCard = () => {
 									<td className='d-none' data-value={el.id}></td>
 									<td className='d-none' data-value={el['conta.contaObjetivo']}></td>
 									<td data-value={el.date}>{stringToIsoDate(el.date)}</td>
-									<td data-value={el.descricao}>{el.descricao.substring(0, 43) + length}</td>
+									<td data-value={el.descricao}>
+										{el.descricao.substring(0, 43) + length}
+										<Badge pill className='ms-2'>
+											{el.tag_nome}
+										</Badge>
+									</td>
+									<td className='d-none' data-value={el.id_tag}></td>
 									<td data-value={el['categoria.id_categoria']}>{<RoundIcon className={'sm-icon'} bgColor={el['categoria.cor']} icon={el['categoria.icone']} />}{el['categoria.nome']}</td>
 									{el['conta.contaObjetivo'] ? (
 										<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el.cor} icon={el['categoria.icone']} />}{el.titulo}</td>
@@ -84,6 +92,7 @@ const TransacoesCard = () => {
 										<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el['conta.instituicao.cor']} icon={el['conta.instituicao.icone']} />}{el['conta.id_cartao'] ? 'Cartão ' : ''}{el['conta.instituicao.nome']}</td>
 									)}
 									<td className={el.valor < 0 ? 'text-danger' : 'text-success'} data-value={el.valor}>{currency_formatter(el.valor)}</td>
+									
 								</tr>
 							)
 						})}

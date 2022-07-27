@@ -11,6 +11,7 @@ import NotFoundView from '../views/NotFoundView'
 import UserView from '../views/UserView'
 import TestView from '../views/TestView'
 import ImportView from '../views/ImportView'
+import TagsView from '../views/TagsView'
 
 export const routesArray = [
 	{
@@ -58,6 +59,12 @@ export const routesArray = [
 				name: 'Categorias',
 				icon: 'tags',
 				element: <CategoriasView />
+			},
+			{
+				path: 'tags',
+				name: 'Tags',
+				icon: 'tags',
+				element: <TagsView />
 			},
 			{
 				path: 'importar',

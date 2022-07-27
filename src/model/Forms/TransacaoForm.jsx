@@ -6,10 +6,12 @@ import CategoriaForm from './CategoriaForm'
 import Conta from '../../controller/Conta'
 import Categoria from '../../controller/Categoria'
 import Transacao from '../../controller/Transacao'
+import Tag from '../../controller/Tag'
 import { capitalize } from '../../utils/StringUtils'
 import CurrencyInput from '../../components/UI/Base/Forms/CurrencyInput'
 import useAuth from '../../hooks/useAuth'
 import { useToast } from '../../context/toastContext'
+import TagForm from './TagForm'
 
 const TransacaoForm = (props) => {
 	const {auth} = useAuth()
@@ -17,9 +19,11 @@ const TransacaoForm = (props) => {
 	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth?.accessToken)
 
 	const [openModalCategoria, setOpenModalCategoria] = useState(false)
 	const [openModalConta, setOpenModalConta] = useState(false)
+	const [openModalTag, setOpenModalTag] = useState(false)
 
 	const propsData = props.data ? props.data : {
 		id: 0,
@@ -27,7 +31,8 @@ const TransacaoForm = (props) => {
 		date: '',
 		descricao: '',
 		categoria: '',
-		conta: ''
+		conta: '',
+		tag: 0
 	}
 
 	const [modalTypeTitle] = useState(props.modalTypeTitle ? props.modalTypeTitle : 'despesa')
@@ -37,9 +42,11 @@ const TransacaoForm = (props) => {
 	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 1)
 	const [conta, setConta] = useState(propsData.conta ? propsData.conta : 1)
 	const [conta2, setConta2] = useState(propsData.conta2 ? propsData.conta2 : 1)
+	const [tag, setTag] = useState(propsData.tag ? propsData.tag : 0)
 
 	const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
 	const [contas, setContas] = useState(contaClass.responseStructure())
+	const [tags, setTags] = useState(tagClass.responseStructure())
 
 
 	useEffect(()=>{
@@ -47,6 +54,15 @@ const TransacaoForm = (props) => {
 			.then(res => {
 				setCategorias(res)
 				if(!propsData.categoria) setCategoria(res[0].id_categoria)
+			})
+			.catch(err => console.error(err))
+	},[openModalCategoria])
+
+	useEffect(()=>{
+		tagClass.get()
+			.then(res => {
+				setTags(res)
+				if(!propsData.tag) setTag('')
 			})
 			.catch(err => console.error(err))
 	},[openModalCategoria])
@@ -67,7 +83,6 @@ const TransacaoForm = (props) => {
 				})
 				.catch(err => console.error(err))
 		}
-
 	},[openModalConta])
 
 	async function save(event, exclude){
@@ -86,6 +101,7 @@ const TransacaoForm = (props) => {
 		}
 
 		if(modalTypeTitle == 'transferencia') data.id_conta2 = conta2
+		if(tag != '') data.tag = tag
 
 		await transacaoClass.save(propsData.id, data, exclude)
 			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
@@ -189,6 +205,25 @@ const TransacaoForm = (props) => {
 								</InputGroup>
 								<Modal openModal={openModalConta} setOpenModal={setOpenModalConta} title={'Editar Categoria'}>
 									<ContaForm />
+								</Modal>
+							</FormGroup>
+						</Col>
+					): ''}
+					{modalTypeTitle != 'transferencia' ? (
+						<Col lg="12">
+							<FormGroup>
+								<Label>Tags</Label>
+								<InputGroup>
+									<Input className='col-8 text-capitalize' type="select" name='tag' value={tag} onChange={e=>setTag(e.target.value)}>
+										<option value=''></option>
+										{tags.map(el => 
+											<option value={el.id} key={el.id}>{capitalize(el.nome)}</option>
+										)}
+									</Input>
+									<Button className='col-4' onClick={() => setOpenModalCategoria(true)}>Nova</Button>
+								</InputGroup>
+								<Modal openModal={openModalTag} setOpenModal={setOpenModalTag} title={'Editar Tag'}>
+									<TagForm />
 								</Modal>
 							</FormGroup>
 						</Col>

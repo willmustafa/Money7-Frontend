@@ -1,5 +1,6 @@
 import { currency_formatter_abs } from '../utils/ValueUtils'
 import Request from './index'
+import moment from 'moment'
 
 export default class Objetivo extends Request {
 	constructor(url, auth){
@@ -29,13 +30,19 @@ export default class Objetivo extends Request {
 
 	precisaEconomizar(atual, final, data){
 		const diff = final - atual
-		let diffMonth = (new Date(data).getMonth()) - (new Date().getMonth())
+		let diffMonth = moment(data).diff(moment(new Date()), 'months', false)
 		let stringSucesso = `Você deve economizar ${currency_formatter_abs(diff/diffMonth)} por mês.`
-        
+
 		if(diffMonth <= 0 || Number.parseFloat(diff/diffMonth) <= 0){
 			return 'Objetivo finalizado!'
 		}
 
 		return stringSucesso
+	}
+
+	precisaEconomizarCalc(atual, final, data){
+		const diff = final - atual
+		let diffMonth = moment(data).diff(moment(new Date()), 'months', false)
+		return diff/diffMonth
 	}
 }

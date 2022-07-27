@@ -14,7 +14,7 @@ const ObjetivosCard = () => {
 	const [dados, setDados] = useState(objetivoClass.responseStructure())
     
 	useEffect(() => {
-		objetivoClass.get({date: new Date(date).toISOString()})
+		objetivoClass.get({date: new Date(date).toISOString(), limit: 3})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
 	}, [date,toastObj])

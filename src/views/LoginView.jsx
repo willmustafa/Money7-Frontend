@@ -129,6 +129,7 @@ const LoginView = () => {
 									</HashLink>
 								</NavItem>
 								<Button
+									className='me-3'
 									color={scroll ? 'dark' : 'light'}
 									outline
 									onClick={()=>setModal(true)}

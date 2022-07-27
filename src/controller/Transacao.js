@@ -117,4 +117,9 @@ export default class Transacao extends Request {
 		this.requestPath = '/transacoesFiltradas/receitaCategoria'
 		return this.get(params)
 	}
+
+	get_desempenho(params){
+		this.requestPath = '/transacoesFiltradas/desempenho'
+		return this.get(params)
+	}
 }

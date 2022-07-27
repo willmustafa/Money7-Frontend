@@ -41,7 +41,7 @@ const ObjetivoForm = props => {
 		}
 		await objetivoClass.save(id_objetivo, data, exclude)
 			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
-			.catch(() => setToastObj({text: 'Um problema ocorreu', type: 'warning'}))
+			.catch((error) => setToastObj({text: 'Um problema ocorreu.' + error, type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
 

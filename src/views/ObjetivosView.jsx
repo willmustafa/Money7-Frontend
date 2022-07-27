@@ -15,7 +15,7 @@ const ObjetivosView = () => {
 	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
 	const {date} = useDate()
 	const [dados, setDados] = useState(objetivoClass.responseStructure())
-	const [openModal, setOpenModal] = useState(false)
+	
 
 	useEffect(() => {
 		objetivoClass.get({date: new Date(date).toISOString()})
@@ -35,7 +35,8 @@ const ObjetivosView = () => {
 						/>
 					</Col>
 					{dados.map((item) => {
-						return <ObjetivosCard {...item} key={item.id_objetivo} setOpenModal={setOpenModal} openModal={openModal} />
+						console.log(item)
+						return <ObjetivosCard {...item} key={item.id_objetivo} />
 					})}
 				</Row>
 			</section>
@@ -45,6 +46,7 @@ const ObjetivosView = () => {
 
 const ObjetivosCard = item => {
 	const objetivoClass = new Objetivo()
+	const [openModal, setOpenModal] = useState(false)
 
 	return (
 		<Col xl="4" md="12" className='mb-md-4'>
@@ -57,11 +59,11 @@ const ObjetivosCard = item => {
 				max={item.valor_total}
 				dataConclusao={new Date(item.date).toLocaleDateString('pt-br')}
 				cardClassName="flex-row align-items-center"
-				onClick={() => item.setOpenModal(true)}
+				onClick={() => setOpenModal(true)}
 				cartao
 				footerLeft={`${objetivoClass.precisaEconomizar(item.saldo_atual, item.valor_total, item.date)}`}
 			/>
-			<Modal openModal={item.openModal} setOpenModal={item.setOpenModal} title={'Editar Objetivo'}>
+			<Modal openModal={openModal} setOpenModal={setOpenModal} title={'Editar Objetivo'}>
 				<ObjetivoForm {...item} />
 			</Modal>
 		</Col> 

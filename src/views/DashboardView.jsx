@@ -7,6 +7,7 @@ import ReceitaDespesaCard from '../model/ReceitaDespesaCard'
 import ReceitasCategoriaCard from '../model/ReceitasCategoriaCard'
 import React from 'react'
 import { Col, Container, Row } from 'reactstrap'
+import { DesempenhoCard } from '../model/DesempenhoCard'
 
 const DashboardView = () => {
 	return (
@@ -41,6 +42,9 @@ const DashboardView = () => {
 				<Row className="mb-xl-2">
 					<Col xl="6" md="12" className='mb-md-4'>
 						<ObjetivosCard />
+					</Col>
+					<Col xl="6" md="12" className='mb-md-4'>
+						<DesempenhoCard />
 					</Col>
 				</Row>
 			</section>

@@ -3,8 +3,7 @@ import CardProgressIconTitle from '../components/UI/CardProgressIconTitle'
 import PlusCardModalOpenner from '../components/UI/PlusCardModalOpenner'
 import ObjetivoForm from '../model/Forms/ObjetivoForm'
 import React, { useEffect, useState } from 'react'
-import { Col, Row } from 'reactstrap'
-import { useDate } from '../context/dateContext'
+import { Col, FormGroup, Input, Row } from 'reactstrap'
 import Objetivo from '../controller/Objetivo'
 import useAuth from '../hooks/useAuth'
 import { useToast } from '../context/toastContext'
@@ -13,18 +12,29 @@ const ObjetivosView = () => {
 	const {auth} = useAuth() 
 	const {toastObj} = useToast()
 	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const {date} = useDate()
 	const [dados, setDados] = useState(objetivoClass.responseStructure())
-	
+	const [status, setStatus] = useState(null)
 
 	useEffect(() => {
-		objetivoClass.get({date: new Date(date).toISOString()})
+		objetivoClass.get({status})
 			.then(res => setDados(res))
 			.catch(err => console.error(err))
-	}, [date, toastObj])
+	}, [toastObj, status])
 	return (
 		<>
 			<div className="main-header">
+				<div className='container pe-0'>
+					<Col md='2' className='float-end'>
+						<FormGroup>
+							<Input type='select' value={status} onChange={(e)=>setStatus(e.target.value)}>
+								<option value='ativado'>Ativos</option>
+								<option value='arquivado'>Arquivados</option>
+								<option value='finalizado'>Finalizados</option>
+							</Input>
+						</FormGroup>
+					</Col>
+
+				</div>
 			</div>
 			<section className='mt-n-7 container'>
 				<Row className="mb-5">

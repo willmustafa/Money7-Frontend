@@ -92,7 +92,6 @@ const TransacoesCard = () => {
 										<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el['conta.instituicao.cor']} icon={el['conta.instituicao.icone']} />}{el['conta.id_cartao'] ? 'Cartão ' : ''}{el['conta.instituicao.nome']}</td>
 									)}
 									<td className={el.valor < 0 ? 'text-danger' : 'text-success'} data-value={el.valor}>{currency_formatter(el.valor)}</td>
-									
 								</tr>
 							)
 						})}

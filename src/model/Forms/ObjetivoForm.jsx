@@ -29,8 +29,9 @@ const ObjetivoForm = props => {
 			.catch(err => console.error(err))
 	},[])
 
-	async function save(event, exclude){
+	async function save(event, exclude, finalizar){
 		event.preventDefault()
+
 		const data = {
 			description,
 			titulo: objetivo,
@@ -39,6 +40,15 @@ const ObjetivoForm = props => {
 			id_categoria,
 			cor: check,
 		}
+
+		if (props.status == 'arquivado' || props.status == 'finalizado'){
+			data.status = 'ativado'
+		}
+		if (props.status == 'ativado'){
+			data.status = 'arquivado'
+		}
+		if (finalizar) data.status = 'finalizado'
+
 		await objetivoClass.save(id_objetivo, data, exclude)
 			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
 			.catch((error) => setToastObj({text: 'Um problema ocorreu.' + error, type: 'warning'}))
@@ -92,14 +102,32 @@ const ObjetivoForm = props => {
 				</Row>
 			</div>
 			<ModalFooter>
-				{id_objetivo !== 0 ? (                
-					<Button
-						className='me-auto'
-						color="danger"
-						onClick={event => save(event, true)}
-					>
+				<div className='me-auto'>
+					{id_objetivo !== 0 ? (                
+						<Button
+							color="danger"
+							onClick={event => save(event, true)}
+						>
                         Excluir
-					</Button>) : ''}
+						</Button>) : ''}
+					{id_objetivo !== 0 ? (                
+						<Button
+							className='ms-2'
+							color="info"
+							onClick={event => save(event)}
+						>
+							{props.status == 'ativado' ? 'Arquivar' : 'Ativar'}
+						</Button>) : ''}
+					{(id_objetivo !== 0 && props.status != 'finalizado') ? (                
+						<Button
+							className='ms-2'
+							color="info"
+							onClick={event => save(event, null, 'finalizado')}
+						>
+							Finalizar
+						</Button>) : ''}
+				</div>
+
                
 				<Button onClick={props.closeModal}>
                     Cancelar

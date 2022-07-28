@@ -20,7 +20,8 @@ const Sidebar = () => {
 		<Navbar>
 			<Nav>
 				<div> 
-					<NavLink to="/" className="mb-5"><img src={require('../../assets/img/brand/logo.png')} alt="" /></NavLink>
+					<NavLink to="/" className="mb-5">
+						<img className='logo-sidebar' src={require('../../assets/img/brand/logo.png')} alt="" /></NavLink>
 					<div className="nav_list mt-5"> 
 						{getRoutes(routesArray)}
 					</div>

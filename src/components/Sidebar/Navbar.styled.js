@@ -15,6 +15,15 @@ z-index: 100;
   left: 0;
 }
 
+.nav_list{
+  width: 3rem;
+  overflow: hidden;
+}
+
+.logo-sidebar{
+  width: 20px
+}
+
 @media screen and (min-width: 768px) {
   &{
       left: 0;
@@ -22,6 +31,14 @@ z-index: 100;
   }
   .menu-show &{
       width: calc(68px + 212px);
+  }
+
+  .nav_list{
+    width: 100%
+  }
+
+  .logo-sidebar{
+    width: 200px
   }
 }
 `

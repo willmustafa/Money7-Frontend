@@ -12,6 +12,12 @@ function stringToIsoDate(date){
 	return `${dateArray[2]}/${month}/${dateArray[0]}`
 }
 
+function ISODateToUSDate(date){
+	const dateIso = new Date(date).toLocaleDateString('pt-BR')
+	const dateArray = dateIso.split('/')
+	return `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`
+}
+
 function sortByMonth(arr) {
 	var months = ['January', 'February', 'March', 'April', 'May', 'June',
 		'July', 'August', 'September', 'October', 'November', 'December']
@@ -36,5 +42,6 @@ module.exports = {
 	stringToIsoDate,
 	sortByMonth,
 	ChartLabelFormatter,
-	fixedValue2Decimals
+	fixedValue2Decimals,
+	ISODateToUSDate,
 }

@@ -7,7 +7,7 @@ import { useToast } from '../../context/toastContext'
 const TagForm = (props) => {
 	const {auth} = useAuth()
 	const {setToastObj} = useToast()
-	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth)
 
 	const propsData = props.data ? props.data : {
 		id: 0,

@@ -9,7 +9,7 @@ import { useToast } from '../context/toastContext'
 const ObjetivosCard = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth)
 	const {date} = useDate()
 	const [dados, setDados] = useState(objetivoClass.responseStructure())
     

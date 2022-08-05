@@ -8,7 +8,7 @@ import ImportForm from '../model/Forms/ImportForm'
 
 const ImportView = () => {
 	const {auth} = useAuth()
-	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth.accessToken)
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(contaClass.responseStructure())

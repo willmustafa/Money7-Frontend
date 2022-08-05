@@ -12,7 +12,7 @@ import { useToast } from '../context/toastContext'
 const CartoesView = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const cartaoClass = new Cartao(process.env.REACT_APP_API_URL, auth)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(cartaoClass.responseStructure())

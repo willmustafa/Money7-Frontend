@@ -11,7 +11,7 @@ import { useToast } from '../context/toastContext'
 const ContasCard = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(contaClass.responseStructure())

@@ -12,7 +12,7 @@ export const DesempenhoCard = () => {
 	const {auth} = useAuth()
 	const {date} = useDate()
 	const {toastObj} = useToast()
-	const Transacao_model = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const Transacao_model = new Transacao(process.env.REACT_APP_API_URL, auth)
 
 	const [dados, setDados] = useState()
 

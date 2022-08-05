@@ -48,10 +48,9 @@ const LoginView = () => {
 					withCredentials: true
 				}
 			)
-			console.log(JSON.stringify(response?.data))
 
 			const accessToken = response?.data?.accessToken
-			setAuth({ user, accessToken })
+			setAuth(accessToken)
 			setUser('')
 			setPwd('')
 			navigate('/dashboard', { replace: true })

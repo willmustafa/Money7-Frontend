@@ -7,7 +7,6 @@ import RoundIcon from '../components/UI/Base/Icon/RoundIcon'
 import Modal from '../components/UI/Base/Modal/Modal'
 import TransacaoForm from './Forms/TransacaoForm'
 import Transacao from '../controller/Transacao'
-import {stringToIsoDate} from '../utils/ValueUtils'
 import GuardarResgatarForm from './Forms/GuardarResgatarForm'
 import useAuth from '../hooks/useAuth'
 import { useToast } from '../context/toastContext'
@@ -15,7 +14,7 @@ import { useToast } from '../context/toastContext'
 const TransacoesCard = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth)
 
 	const [openModalTransacao, setOpenModalTransacao] = useState(false)
 	const [openModalObjetivo, setOpenModalObjetivo] = useState(false)
@@ -44,12 +43,7 @@ const TransacoesCard = () => {
 		}
 		setRowData(rowInfo)
 
-		if(rowInfo.contaObjetivo == 'true'){
-			setOpenModalObjetivo(true)
-		}else{
-			setOpenModalTransacao(true)
-		}
-		
+		setOpenModalTransacao(true)
 	}
 
 	return (  
@@ -77,7 +71,7 @@ const TransacoesCard = () => {
 								<tr key={el.id} onClick={editRow}>
 									<td className='d-none' data-value={el.id}></td>
 									<td className='d-none' data-value={el['conta.contaObjetivo']}></td>
-									<td data-value={el.date}>{stringToIsoDate(el.date)}</td>
+									<td data-value={el.date}>{new Date(el.date).toLocaleDateString('pt-BR')}</td>
 									<td data-value={el.descricao}>
 										{el.descricao.substring(0, 43) + length}
 										<Badge pill className='ms-2'>

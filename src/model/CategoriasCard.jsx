@@ -11,7 +11,7 @@ import { useToast } from '../context/toastContext'
 const CategoriasCard = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth)
 	const [openModal, setOpenModal] = useState(false)
 
 	const [dados, setDados] = useState(categoriaClass.responseStructure())

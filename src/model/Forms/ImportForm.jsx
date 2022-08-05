@@ -9,7 +9,7 @@ const ImportForm = props => {
 	const {setToastObj} = useToast()
 	const [file, setFile] = useState(null)
 	const [exclude, setExclude] = useState(false)
-	const importClass = new Import(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const importClass = new Import(process.env.REACT_APP_API_URL, auth)
 
 	async function save(event){
 		event.preventDefault()

@@ -11,7 +11,7 @@ import { useToast } from '../context/toastContext'
 const ObjetivosView = () => {
 	const {auth} = useAuth() 
 	const {toastObj} = useToast()
-	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth)
 	const [dados, setDados] = useState(objetivoClass.responseStructure())
 	const [status, setStatus] = useState(null)
 

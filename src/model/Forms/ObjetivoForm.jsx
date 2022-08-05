@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, FormGroup, Input, Label, ModalFooter, Row } from 'reactstrap'
+import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, Row } from 'reactstrap'
 import ColorPicker from '../../components/UI/Base/Forms/ColorPicker'
 import Categoria from '../../controller/Categoria'
 import Objetivo from '../../controller/Objetivo'
@@ -11,8 +11,8 @@ const ObjetivoForm = props => {
 	const {auth} = useAuth()
 	const {setToastObj} = useToast()
 
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth)
+	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth)
 
 	const [check, setCheck] = useState(props.cor ? props.cor : 'bg-primary')
 	const [id_objetivo] = useState(props.id_objetivo ? props.id_objetivo : 0)
@@ -22,6 +22,7 @@ const ObjetivoForm = props => {
 	const [id_categoria, setIdCategoria] = useState(props.id_categoria ? props.id_categoria : 1)
 	const [description, setDescription] = useState(props.description ? props.description : '')
 	const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
+	const [checkModal, setCheckModal] = useState(false)
 
 	useEffect(()=>{
 		categoriaClass.get()
@@ -29,7 +30,7 @@ const ObjetivoForm = props => {
 			.catch(err => console.error(err))
 	},[])
 
-	async function save(event, exclude, finalizar){
+	async function save(event, finalizar){
 		event.preventDefault()
 
 		const data = {
@@ -37,6 +38,7 @@ const ObjetivoForm = props => {
 			titulo: objetivo,
 			valor,
 			date,
+			status: 'ativado',
 			id_categoria,
 			cor: check,
 		}
@@ -49,8 +51,15 @@ const ObjetivoForm = props => {
 		}
 		if (finalizar) data.status = 'finalizado'
 
-		await objetivoClass.save(id_objetivo, data, exclude)
+		await objetivoClass.save(id_objetivo, data, false)
 			.then(() => setToastObj({text: 'Salvo com sucesso!', type: 'success'}))
+			.catch((error) => setToastObj({text: 'Um problema ocorreu.' + error, type: 'warning'}))
+			.finally(()=> props.closeModal())
+	}
+
+	async function exclude(){
+		await objetivoClass.save(id_objetivo, {}, true)
+			.then(() => setToastObj({text: 'Excluído com sucesso!', type: 'success'}))
 			.catch((error) => setToastObj({text: 'Um problema ocorreu.' + error, type: 'warning'}))
 			.finally(()=> props.closeModal())
 	}
@@ -106,7 +115,7 @@ const ObjetivoForm = props => {
 					{id_objetivo !== 0 ? (                
 						<Button
 							color="danger"
-							onClick={event => save(event, true)}
+							onClick={() => setCheckModal(true)}
 						>
                         Excluir
 						</Button>) : ''}
@@ -141,6 +150,20 @@ const ObjetivoForm = props => {
                     Salvar
 				</Button>
 			</ModalFooter>
+			<Modal isOpen={checkModal} toggle={setCheckModal}>
+				<ModalBody>
+					<h3 className='text-center'>Tem certeza que quer excluir?</h3>
+					<h4>Isso apagará todas as transferências feitas para esse objetivo</h4>
+				</ModalBody>
+				<ModalFooter>
+					<Button onClick={() => setCheckModal(false)}>
+						Cancelar
+					</Button>
+					<Button color='danger' onClick={()=> exclude(true)}>
+						Excluir
+					</Button>
+				</ModalFooter>
+			</Modal>
 		</Form>
 	)
 }

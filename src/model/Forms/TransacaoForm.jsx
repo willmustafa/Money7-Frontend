@@ -8,6 +8,7 @@ import Categoria from '../../controller/Categoria'
 import Transacao from '../../controller/Transacao'
 import Tag from '../../controller/Tag'
 import { capitalize } from '../../utils/StringUtils'
+import { ISODateToUSDate } from '../../utils/ValueUtils'
 import CurrencyInput from '../../components/UI/Base/Forms/CurrencyInput'
 import useAuth from '../../hooks/useAuth'
 import { useToast } from '../../context/toastContext'
@@ -16,10 +17,10 @@ import TagForm from './TagForm'
 const TransacaoForm = (props) => {
 	const {auth} = useAuth()
 	const {setToastObj} = useToast()
-	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth)
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth)
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth)
+	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth)
 
 	const [openModalCategoria, setOpenModalCategoria] = useState(false)
 	const [openModalConta, setOpenModalConta] = useState(false)
@@ -37,7 +38,7 @@ const TransacaoForm = (props) => {
 
 	const [modalTypeTitle] = useState(props.modalTypeTitle ? props.modalTypeTitle : 'despesa')
 	const [valor, setValor] = useState(propsData.valor ? propsData.valor : '0.00')
-	const [date, setDate] = useState(propsData.date ? propsData.date : new Date())
+	const [date, setDate] = useState(propsData.date ? ISODateToUSDate(propsData.date) : new Date())
 	const [descricao, setDescricao] = useState(propsData.descricao ? propsData.descricao: '')
 	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 1)
 	const [conta, setConta] = useState(propsData.conta ? propsData.conta : 1)
@@ -47,7 +48,6 @@ const TransacaoForm = (props) => {
 	const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
 	const [contas, setContas] = useState(contaClass.responseStructure())
 	const [tags, setTags] = useState(tagClass.responseStructure())
-
 
 	useEffect(()=>{
 		categoriaClass.get()
@@ -69,7 +69,7 @@ const TransacaoForm = (props) => {
 
 	useEffect(()=>{
 		if(modalTypeTitle != 'transferencia'){
-			contaClass.get_contaCartao()
+			contaClass.get_contaCartao({contaObjetivo: true})
 				.then(res => {
 					setContas(res)
 					if(!propsData.conta) setConta(res[0].id_conta)

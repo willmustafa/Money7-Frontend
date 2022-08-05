@@ -66,7 +66,7 @@ const Header = () => {
 										<span>Meu Perfil</span>
 									</DropdownItem>
 									<DropdownItem divider />
-									<DropdownItem href="/">
+									<DropdownItem href="/dashboard/logout">
 										<FontAwesomeIcon icon="arrow-right-from-bracket" />
 										<span>Sair</span>
 									</DropdownItem>

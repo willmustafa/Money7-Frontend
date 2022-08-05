@@ -24,9 +24,10 @@ const MainView = () => {
 	}, [location, displayLocation])
 
 	useEffect(()=>{
-		toast(toastObj.text, {type: toastObj.type})
+		if(toastObj.text)
+			toast(toastObj.text, {type: toastObj.type})
 	}, [toastObj])
-
+	
 	return (
 		<DateProvider>
 			<Container fluid className="menu-show d-flex p-0">
@@ -41,7 +42,7 @@ const MainView = () => {
 							}
 						}}
 					>
-						{auth?.accessToken
+						{auth
 							? (<Outlet />): (auth?.user
 								? (<Navigate to="/unauthorized" state={{ from: location }} replace />)
 								: (<Navigate to="/" state={{ from: location }} replace />))

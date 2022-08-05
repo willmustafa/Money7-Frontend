@@ -9,8 +9,8 @@ import { useToast } from '../../context/toastContext'
 const ContaForm = props => {
 	const {auth} = useAuth()
 	const {setToastObj} = useToast()
-	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const contaClass = new Conta(process.env.REACT_APP_API_URL, auth)
+	const instituicaoClass = new Instituicao(process.env.REACT_APP_API_URL, auth)
 
 	const [id_conta] = useState(props.id_conta ? props.id_conta : 0)
 	const [id_instituicao, setId_instituicao] = useState(props.id_instituicao)

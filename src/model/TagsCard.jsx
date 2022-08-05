@@ -10,7 +10,7 @@ import { useToast } from '../context/toastContext'
 const TagsCard = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const tagClass = new Tag(process.env.REACT_APP_API_URL, auth)
 	const [openModal, setOpenModal] = useState(false)
 
 	const [dados, setDados] = useState(tagClass.responseStructure())

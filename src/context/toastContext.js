@@ -6,7 +6,7 @@ const ToastContext = createContext()
 export default function ToastProvider({children}){
 	const [toastObj, setToastObj] = useState({
 		type: toast.TYPE.INFO,
-		text: 'Olá'
+		text: null
 	})
 
 	return (

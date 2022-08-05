@@ -10,7 +10,7 @@ import { useToast } from '../../context/toastContext'
 const CategoriaForm = (props) => {
 	const {auth} = useAuth()
 	const {setToastObj} = useToast()
-	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const categoriaClass = new Categoria(process.env.REACT_APP_API_URL, auth)
 
 	const propsData = props.data ? props.data : {
 		id_categoria: 0,

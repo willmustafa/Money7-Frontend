@@ -12,6 +12,7 @@ import UserView from '../views/UserView'
 import TestView from '../views/TestView'
 import ImportView from '../views/ImportView'
 import TagsView from '../views/TagsView'
+import { LogoutView } from '../views/LogoutView'
 
 export const routesArray = [
 	{
@@ -85,6 +86,12 @@ export const routesArray = [
 				sidebar: false,
 				icon: 'tags',
 				element: <UserView />
+			},
+			{
+				path: 'logout',
+				name: 'logout',
+				sidebar: false,
+				element: <LogoutView />
 			},
 		]
 	},

@@ -11,8 +11,8 @@ import { useToast } from '../../context/toastContext'
 const GuardarResgatarForm = (props) => {
 	const {auth} = useAuth()
 	const {setToastObj} = useToast()
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
-	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth)
+	const objetivoClass = new Objetivo(process.env.REACT_APP_API_URL, auth)
 
 	const propsData = props.data ? props.data : {
 		id: 0,

@@ -8,7 +8,7 @@ import { currency_formatter } from '../utils/ValueUtils'
 const ObjetivoInfo = () => {
 	const {auth} = useAuth()
 	const {date} = useDate()
-	const Objetivo_model = new Objetivo(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const Objetivo_model = new Objetivo(process.env.REACT_APP_API_URL, auth)
 
 	const [dados, setDados] = useState()
 

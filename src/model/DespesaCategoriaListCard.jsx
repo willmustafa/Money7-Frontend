@@ -8,7 +8,7 @@ import { useToast } from '../context/toastContext'
 const DespesaCategoriaListCard = () => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
-	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth?.accessToken)
+	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth)
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(transacaoClass.responseStructure_despesasPorCategoria())

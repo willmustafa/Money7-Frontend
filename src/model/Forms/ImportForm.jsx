@@ -37,7 +37,7 @@ const ImportForm = props => {
 						<FormGroup check>
 							<Input 
 								type="checkbox" 
-								onChange={e => setExclude(e.target.value)} 
+								onChange={e => setExclude(e.target.checked)} 
 							/>
 							{' '}
 							<Label check>Excluir esses dados do banco de dados?</Label>

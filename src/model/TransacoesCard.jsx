@@ -2,7 +2,7 @@ import Card from '../components/UI/Base/Card/Card'
 import React, { useEffect, useState } from 'react'
 import { useDate } from '../context/dateContext'
 import { currency_formatter, fixedValue2Decimals } from '../utils/ValueUtils'
-import { Badge, Table } from 'reactstrap'
+import { Badge, FormGroup, Input, Label, Table } from 'reactstrap'
 import RoundIcon from '../components/UI/Base/Icon/RoundIcon'
 import Modal from '../components/UI/Base/Modal/Modal'
 import TransacaoForm from './Forms/TransacaoForm'
@@ -11,7 +11,7 @@ import GuardarResgatarForm from './Forms/GuardarResgatarForm'
 import useAuth from '../hooks/useAuth'
 import { useToast } from '../context/toastContext'
 
-const TransacoesCard = () => {
+const TransacoesCard = props => {
 	const {auth} = useAuth()
 	const {toastObj} = useToast()
 	const transacaoClass = new Transacao(process.env.REACT_APP_API_URL, auth)
@@ -21,6 +21,7 @@ const TransacoesCard = () => {
 	const [dados, setDados] = useState(transacaoClass.responseStructure())
 	const {date} = useDate()
 	const [rowData, setRowData] = useState({})
+	const [hideObjetivos, setHideObjetivos] = useState(false)
 	
 	useEffect(()=>{
 		transacaoClass.get({date: new Date(date).toISOString()})
@@ -46,9 +47,47 @@ const TransacoesCard = () => {
 		setOpenModalTransacao(true)
 	}
 
+	let filteredTable = dados
+		.filter(tabela => {
+			if (props.searchInput === '')
+				return tabela
+	
+			if (tabela?.descricao && String(tabela.descricao).toLowerCase().includes(props.searchInput) && !hideObjetivos && !tabela['conta.contaObjetivo'])
+				return tabela
+			
+			if (tabela?.conta?.instituicao?.nome && String(tabela.conta.instituicao.nome).toLowerCase().includes(props.searchInput && !hideObjetivos && !tabela['conta.contaObjetivo']))
+				return tabela
+	
+			if (tabela?.tag_nome && String(tabela.tag_nome).toLowerCase().includes(props.searchInput) && !hideObjetivos && !tabela['conta.contaObjetivo'])
+				return tabela
+	
+			if (tabela?.categoria?.nome && String(tabela.categoria.nome).toLowerCase().includes(props.searchInput) && !hideObjetivos && !tabela['conta.contaObjetivo'])
+				return tabela
+		
+		})
+
+	if(hideObjetivos) filteredTable = filteredTable.filter(tabela => !tabela['conta.contaObjetivo'])
+
 	return (  
 		<>
-			<Card title={'Transações'}>
+			<Card title={'Transações'} rightNav={
+				<div className='col-12 d-flex align-items-center'>
+					<FormGroup check className='col-3 ms-auto align-self-end'>
+						<Input 
+							type="checkbox" 
+							onChange={e => setHideObjetivos(e.target.checked)} 
+						/>
+						{' '}
+						<Label check>Não exibir objetivos</Label>
+					</FormGroup>
+					<Input 
+						type='text' 
+						className='col-4 w-25'
+						placeholder='Filtrar...' 
+						onChange={(e) => props.setSearchInput(e.target.value)} />
+				</div>
+				
+			}>
 				<Table
 					hover
 					responsive
@@ -65,7 +104,7 @@ const TransacoesCard = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{dados.map(el=>{
+						{filteredTable.map(el=>{
 							const length = el.descricao.length > 43 ? '...' : ''
 							return(
 								<tr key={el.id} onClick={editRow}>

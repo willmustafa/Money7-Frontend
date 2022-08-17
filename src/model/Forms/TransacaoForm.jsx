@@ -38,7 +38,7 @@ const TransacaoForm = (props) => {
 
 	const [modalTypeTitle] = useState(props.modalTypeTitle ? props.modalTypeTitle : 'despesa')
 	const [valor, setValor] = useState(propsData.valor ? propsData.valor : '0.00')
-	const [date, setDate] = useState(propsData.date ? ISODateToUSDate(propsData.date) : new Date())
+	const [date, setDate] = useState(propsData.date ? ISODateToUSDate(propsData.date) : ISODateToUSDate(new Date()))
 	const [descricao, setDescricao] = useState(propsData.descricao ? propsData.descricao: '')
 	const [categoria, setCategoria] = useState(propsData.categoria ? propsData.categoria : 1)
 	const [conta, setConta] = useState(propsData.conta ? propsData.conta : 1)
@@ -65,7 +65,7 @@ const TransacaoForm = (props) => {
 				if(!propsData.tag) setTag('')
 			})
 			.catch(err => console.error(err))
-	},[openModalCategoria])
+	},[openModalTag])
 
 	useEffect(()=>{
 		if(modalTypeTitle != 'transferencia'){
@@ -220,7 +220,7 @@ const TransacaoForm = (props) => {
 											<option value={el.id} key={el.id}>{capitalize(el.nome)}</option>
 										)}
 									</Input>
-									<Button className='col-4' onClick={() => setOpenModalCategoria(true)}>Nova</Button>
+									<Button className='col-4' onClick={() => setOpenModalTag(true)}>Nova</Button>
 								</InputGroup>
 								<Modal openModal={openModalTag} setOpenModal={setOpenModalTag} title={'Editar Tag'}>
 									<TagForm />

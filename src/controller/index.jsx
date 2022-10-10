@@ -60,7 +60,6 @@ export default class Request {
 			timeout: 9000000,
 			withCredentials: true
 		}
-		console.log(this._pathCreator())
 		return axios.post(this._pathCreator(), formData, config).then(res => res.data)
 	}
 }

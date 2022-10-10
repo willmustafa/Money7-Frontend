@@ -122,4 +122,9 @@ export default class Transacao extends Request {
 		this.requestPath = '/transacoesFiltradas/desempenho'
 		return this.get(params)
 	}
+
+	get_transacoesFuturas(params){
+		this.requestPath = '/transacoesFuturas/'
+		return this.get(params)
+	}
 }

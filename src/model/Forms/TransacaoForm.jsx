@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, FormGroup, Input, InputGroup, Label, ModalFooter, Row } from 'reactstrap'
+// import Select from 'react-select'
 import Modal from '../../components/UI/Base/Modal/Modal'
 import ContaForm from './ContaForm'
 import CategoriaForm from './CategoriaForm'
@@ -47,7 +48,7 @@ const TransacaoForm = (props) => {
 
 	const [categorias, setCategorias] = useState(categoriaClass.responseStructure())
 	const [contas, setContas] = useState(contaClass.responseStructure())
-	const [tags, setTags] = useState(tagClass.responseStructure())
+	const [tags, setTags] = useState([])
 
 	useEffect(()=>{
 		categoriaClass.get()
@@ -84,6 +85,13 @@ const TransacaoForm = (props) => {
 				.catch(err => console.error(err))
 		}
 	},[openModalConta])
+
+	// const tagsObj = tags.map(el => {
+	// 	return {
+	// 		value: el.id,
+	// 		label: el.nome
+	// 	}
+	// })
 
 	async function save(event, exclude){
 		event.preventDefault()
@@ -213,6 +221,15 @@ const TransacaoForm = (props) => {
 						<Col lg="12">
 							<FormGroup>
 								<Label>Tags</Label>
+								{/* <Select
+									isMulti
+									name="tag"
+									options={tagsObj}
+									className="basic-multi-select"
+									classNamePrefix="select"
+									onChange={e=>setTag(e.map(el => el.id))}
+									value={tagsObj.filter(el => el.value === tag)}
+								/> */}
 								<InputGroup>
 									<Input className='col-8 text-capitalize' type="select" name='tag' value={tag} onChange={e=>setTag(e.target.value)}>
 										<option value=''></option>

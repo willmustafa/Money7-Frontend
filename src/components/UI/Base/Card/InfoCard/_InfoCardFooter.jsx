@@ -6,7 +6,7 @@ const _InfoCardFooter = props => {
 	const value = props.value === null ? 0 : props.value
 	return (
 		<div className="mt-3 mb-0 text-muted d-block h5">
-			<span className={`${value < 0 ? 'text-danger' : (value === 0 ? '' : 'text-success')} me-2`}>
+			<span className={`${(value < 0 && !props.isExpense) ? 'text-danger' : (value === 0 ? '' : 'text-success')} me-2`}>
 				{value === 0 ? '' : <FontAwesomeIcon icon={value < 0 ? 'arrow-down' : 'arrow-up'} />}&nbsp;
 				{value}%
 			</span> 
@@ -19,12 +19,14 @@ _InfoCardFooter.propTypes = {
 	/** Value in percentage, if lower than 0 it turns red and arrow down */
 	value: PropTypes.number.isRequired,
 	/** Text to be displayed */
-	text: PropTypes.string.isRequired
+	text: PropTypes.string.isRequired,
+	isExpense: PropTypes.bool
 }
 
 _InfoCardFooter.defaultProps = {
 	value: 0,
-	text: 'Em relação ao mês passado'
+	text: 'Em relação ao mês passado',
+	isExpense: false
 }
 
 export default _InfoCardFooter

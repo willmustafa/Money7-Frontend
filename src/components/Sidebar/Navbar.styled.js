@@ -38,7 +38,7 @@ z-index: 100;
   }
 
   .logo-sidebar{
-    width: 200px
+    width: 165px
   }
 }
 `

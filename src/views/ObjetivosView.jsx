@@ -45,7 +45,6 @@ const ObjetivosView = () => {
 						/>
 					</Col>
 					{dados.map((item) => {
-						console.log(item)
 						return <ObjetivosCard {...item} key={item.id_objetivo} />
 					})}
 				</Row>

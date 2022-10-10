@@ -10,6 +10,9 @@ const _InfoCardHeader = props => {
 			<Col>
 				<h5 className="text-uppercase text-muted mb-0">{props.title}</h5>
 				<h2 className="font-weight-bold mb-0">{currency_formatter(props.value)}</h2>
+				{props.predicted ? (
+					<h5 className="mt-1 mb-0">Previsto: {currency_formatter(props.predicted)}</h5>
+				) : ''}
 			</Col>
 			<Col md="auto">
 				<RoundIcon 
@@ -28,7 +31,8 @@ _InfoCardHeader.propTypes = {
 	/** Background color from icon */
 	bgColor: PropTypes.string.isRequired,
 	/** Icon from FontAwesome */
-	icon: PropTypes.string.isRequired
+	icon: PropTypes.string.isRequired,
+	predicted: PropTypes.number
 }
 
 export default _InfoCardHeader

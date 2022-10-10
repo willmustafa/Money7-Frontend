@@ -13,10 +13,25 @@ const MonthInfoCards = () => {
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(transacaoClass.responseStructure_somaMensal())
+	const [valoresPrevistos, setValoresPrevistos] = useState(transacaoClass.get_transacoesFuturas())
+	const balancoMensalPrevisto = (valoresPrevistos.receitaPrevista + dados.receita) - 
+	(Math.abs(valoresPrevistos.despesaPrevista) + Math.abs(dados.despesa))
 
 	useEffect(() => {
 		transacaoClass.get_somaMensal({date: new Date(date).toISOString()})
 			.then(res => setDados(res[0]))
+			.catch(err => console.error(err))
+		transacaoClass.get_transacoesFuturas({date: new Date(date).toISOString()})			
+			.then(res => {
+				setValoresPrevistos({
+					receitaPrevista: res.filter(transacao => parseFloat(transacao.valor) > 0)
+						.map(transacao => transacao.valor)
+						.reduce((partialSum, current) => partialSum + current, 0),
+					despesaPrevista: res.filter(transacao => parseFloat(transacao.valor) < 0)
+						.map(transacao => transacao.valor)
+						.reduce((partialSum, current) => partialSum + current, 0),
+				})
+			})
 			.catch(err => console.error(err))
 	}, [date, toastObj])
 
@@ -28,6 +43,7 @@ const MonthInfoCards = () => {
 						<InfoCard
 							title="Receita" 
 							value={dados.receita} 
+							predicted={dados.receita + valoresPrevistos.receitaPrevista}
 							bgColor={'bg-success'} 
 							icon={'coins'}
 							percentageValue={dados.receita_perc_last}
@@ -36,8 +52,10 @@ const MonthInfoCards = () => {
 					</Col>
 					<Col xl="3" xs="12" sm="12" md="6" className='mb-md-4'>
 						<InfoCard
+							isExpense={true}
 							title="Despesa" 
 							value={dados.despesa} 
+							predicted={dados.despesa + valoresPrevistos.despesaPrevista}
 							bgColor={'bg-danger'} 
 							icon={'credit-card'}
 							percentageValue={dados.despesa_perc_last}
@@ -48,6 +66,7 @@ const MonthInfoCards = () => {
 						<InfoCard
 							title="Balanço do Mês" 
 							value={dados.saldo_atual} 
+							predicted={balancoMensalPrevisto}
 							percentageValue={dados.balanco_perc_last}
 							bgColor={'bg-primary'} 
 							icon={'chart-line'}

@@ -72,13 +72,12 @@ const LoginView = () => {
 		e.preventDefault()
 
 		try {
-			const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/register`,
+			await axios.post(`${process.env.REACT_APP_API_URL}/users/register`,
 				JSON.stringify({ user, pwd, username }),
 				{
 					headers: { 'Content-Type': 'application/json' },
 				}
-			)
-			console.log(JSON.stringify(response?.data))
+			).then(() => handleSubmit(e))
 		} catch (err) {
 			if (!err?.response) {
 				setErrMsg('No Server Response')

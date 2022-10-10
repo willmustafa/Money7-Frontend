@@ -105,7 +105,6 @@ const EditableTable = ({data, column}) => {
 
 	useEffect(() => {
 		setSkipPageReset(false)
-		console.log(dataRows)
 	}, [dataRows])
 
 	const tableInstance = useTable({ columns, data, defaultColumn, autoResetPage: !skipPageReset, updateMyData })

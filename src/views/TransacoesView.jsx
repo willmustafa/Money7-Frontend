@@ -4,6 +4,7 @@ import React from 'react'
 import { Col, Container, Row } from 'reactstrap'
 import FilteredInfoCards from '../model/FilteredInfoCards'
 import { useState } from 'react'
+import TransacoesFuturasCard from '../model/TransacoesFuturasCard'
 
 const TransacoesView = () => {
 	const [searchInput, setSearchInput] = useState('')
@@ -26,6 +27,16 @@ const TransacoesView = () => {
 				<Row className="mb-5">
 					<Col xl="12">
 						<TransacoesCard 
+							setSearchInput={setSearchInput} 
+							searchInput={searchInput} 
+							hideObjetivos={hideObjetivos}
+							setHideObjetivos={setHideObjetivos}
+						/>
+					</Col>
+				</Row>
+				<Row className="mb-5">
+					<Col xl="12">
+						<TransacoesFuturasCard 
 							setSearchInput={setSearchInput} 
 							searchInput={searchInput} 
 							hideObjetivos={hideObjetivos}

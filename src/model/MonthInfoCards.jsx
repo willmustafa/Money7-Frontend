@@ -13,13 +13,12 @@ const MonthInfoCards = () => {
 
 	const {date} = useDate()
 	const [dados, setDados] = useState(transacaoClass.responseStructure_somaMensal())
-	const [valoresPrevistos, setValoresPrevistos] = useState(transacaoClass.get_transacoesFuturas())
-	const balancoMensalPrevisto = (valoresPrevistos.receitaPrevista + dados.receita) - 
-	(Math.abs(valoresPrevistos.despesaPrevista) + Math.abs(dados.despesa))
+	const [valoresPrevistos, setValoresPrevistos] = useState([])
+	let balancoMensalPrevisto = 0
 
 	useEffect(() => {
 		transacaoClass.get_somaMensal({date: new Date(date).toISOString()})
-			.then(res => setDados(res[0]))
+			.then(res => setDados(res))
 			.catch(err => console.error(err))
 		transacaoClass.get_transacoesFuturas({date: new Date(date).toISOString()})			
 			.then(res => {
@@ -42,11 +41,11 @@ const MonthInfoCards = () => {
 					<Col xl="3" xs="12" sm="12" md="6" className='mb-md-4'>
 						<InfoCard
 							title="Receita" 
-							value={dados.receita} 
-							predicted={dados.receita + valoresPrevistos.receitaPrevista}
+							value={dados?.receita} 
+							predicted={dados?.receita + valoresPrevistos.receitaPrevista}
 							bgColor={'bg-success'} 
 							icon={'coins'}
-							percentageValue={dados.receita_perc_last}
+							percentageValue={dados?.receita_perc_last}
 							text="Em relação ao mês anterior"
 						/>
 					</Col>
@@ -54,20 +53,20 @@ const MonthInfoCards = () => {
 						<InfoCard
 							isExpense={true}
 							title="Despesa" 
-							value={dados.despesa} 
-							predicted={dados.despesa + valoresPrevistos.despesaPrevista}
+							value={dados?.despesa} 
+							predicted={dados?.despesa + valoresPrevistos.despesaPrevista}
 							bgColor={'bg-danger'} 
 							icon={'credit-card'}
-							percentageValue={dados.despesa_perc_last}
+							percentageValue={dados?.despesa_perc_last}
 							text="Em relação ao mês anterior"
 						/>
 					</Col>
 					<Col xl="3" xs="12" sm="12" md="6" className='mb-md-4'>
 						<InfoCard
 							title="Balanço do Mês" 
-							value={dados.saldo_atual} 
+							value={dados?.saldo_atual} 
 							predicted={balancoMensalPrevisto}
-							percentageValue={dados.balanco_perc_last}
+							percentageValue={dados?.balanco_perc_last}
 							bgColor={'bg-primary'} 
 							icon={'chart-line'}
 						/>
@@ -75,7 +74,7 @@ const MonthInfoCards = () => {
 					<Col xl="3" xs="12" sm="12" md="6" className='mb-md-4'>
 						<InfoCard
 							title="Saldo Total" 
-							value={dados.saldo_total} 
+							value={dados?.saldo_total} 
 							bgColor={'bg-info'} 
 							icon={'sack-dollar'}
 						/>

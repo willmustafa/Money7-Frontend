@@ -127,4 +127,14 @@ export default class Transacao extends Request {
 		this.requestPath = '/transacoesFuturas/'
 		return this.get(params)
 	}
+
+	post_transacoesFuturas(params){
+		this.requestPath = '/transacoesFuturas/'
+		return this.save(params)
+	}
+
+	update_transacoesFuturas(id, data, exclude){
+		this.requestPath = '/transacoesFuturas/'
+		return this.save(id, data, exclude)
+	}
 }

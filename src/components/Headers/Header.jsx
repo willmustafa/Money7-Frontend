@@ -22,6 +22,7 @@ z-index: 10;
 
 const Header = () => {
 	const location = useLocation()
+	const username = localStorage.getItem('name') || 'Usuário'
 
 	return (
 		<Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -55,7 +56,7 @@ const Header = () => {
 										</span>
 										<Media className="ms-2 d-none d-lg-block">
 											<span className="mb-0 text-sm font-weight-bold">
-												Willian
+												{username}
 											</span>
 										</Media>
 									</Media>

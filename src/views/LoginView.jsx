@@ -50,6 +50,8 @@ const LoginView = () => {
 			)
 
 			const accessToken = response?.data?.accessToken
+			const name = response?.data?.name
+			localStorage.setItem('name', name)
 			setAuth(accessToken)
 			setUser('')
 			setPwd('')
@@ -77,7 +79,7 @@ const LoginView = () => {
 				{
 					headers: { 'Content-Type': 'application/json' },
 				}
-			).then(() => handleSubmit(e))
+			).then(() => handleSubmit(e)).finally(() => localStorage.setItem('name', username))
 		} catch (err) {
 			if (!err?.response) {
 				setErrMsg('No Server Response')

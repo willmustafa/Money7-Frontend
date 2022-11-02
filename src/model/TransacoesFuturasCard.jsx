@@ -60,23 +60,33 @@ const TransacoesFuturasCard = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{dados.map(el=>{
-							const length = el.descricao.length > 43 ? '...' : ''
-							return(
-								<tr key={el.id} onClick={editRow}>
-									<td className='d-none' data-value={el.id}></td>
-									<td data-value={el.dataPrevista}>{new Date(el.dataPrevista).toLocaleDateString('pt-BR')}</td>
-									<td data-value={el.descricao}>
-										{el.descricao.substring(0, 43) + length}
-									</td>
-									<td data-value={el.id_categoria}>
-										{<RoundIcon className={'sm-icon'} bgColor={el?.categoria?.cor} icon={el?.categoria?.icone} />}
-										{el?.categoria?.nome}
-									</td>
-									<td className={el.valor < 0 ? 'text-danger' : 'text-success'} data-value={el.valor}>{currency_formatter(el.valor)}</td>
-								</tr>
-							)
-						})}
+						{dados.length ? (
+							dados.map(el=>{
+								const length = el.descricao.length > 43 ? '...' : ''
+								return(
+									<tr key={el.id} onClick={editRow}>
+										<td className='d-none' data-value={el.id}></td>
+										<td data-value={el.dataPrevista}>{new Date(el.dataPrevista).toLocaleDateString('pt-BR')}</td>
+										<td data-value={el.descricao}>
+											{el.descricao.substring(0, 43) + length}
+										</td>
+										<td data-value={el.id_categoria}>
+											{<RoundIcon className={'sm-icon'} bgColor={el?.categoria?.cor} icon={el?.categoria?.icone} />}
+											{el?.categoria?.nome}
+										</td>
+										<td className={el.valor < 0 ? 'text-danger' : 'text-success'} data-value={el.valor}>{currency_formatter(el.valor)}</td>
+									</tr>
+								)
+							})
+						) : (
+							<tr>
+								<td>Sem Registros</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						)}
 					</tbody>
 				</Table>
 			</Card>

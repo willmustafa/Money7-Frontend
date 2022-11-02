@@ -104,30 +104,40 @@ const TransacoesCard = props => {
 						</tr>
 					</thead>
 					<tbody>
-						{filteredTable.map(el=>{
-							const length = el.descricao.length > 43 ? '...' : ''
-							return(
-								<tr key={el.id} onClick={editRow}>
-									<td className='d-none' data-value={el.id}></td>
-									<td className='d-none' data-value={el['conta.contaObjetivo']}></td>
-									<td data-value={el.date}>{new Date(el.date).toLocaleDateString('pt-BR')}</td>
-									<td data-value={el.descricao}>
-										{el.descricao.substring(0, 43) + length}
-										<Badge pill className='ms-2'>
-											{el.tag_nome}
-										</Badge>
-									</td>
-									<td className='d-none' data-value={el.id_tag}></td>
-									<td data-value={el['categoria.id_categoria']}>{<RoundIcon className={'sm-icon'} bgColor={el['categoria.cor']} icon={el['categoria.icone']} />}{el['categoria.nome']}</td>
-									{el['conta.contaObjetivo'] ? (
-										<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el.cor} icon={el['categoria.icone']} />}{el.titulo}</td>
-									) : (
-										<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el['conta.instituicao.cor']} icon={el['conta.instituicao.icone']} />}{el['conta.id_cartao'] ? 'Cartão ' : ''}{el['conta.instituicao.nome']}</td>
-									)}
-									<td className={el.valor < 0 ? 'text-danger' : 'text-success'} data-value={el.valor}>{currency_formatter(el.valor)}</td>
-								</tr>
-							)
-						})}
+						{filteredTable.length ? (
+							filteredTable.map(el=>{
+								const length = el.descricao.length > 43 ? '...' : ''
+								return(
+									<tr key={el.id} onClick={editRow}>
+										<td className='d-none' data-value={el.id}></td>
+										<td className='d-none' data-value={el['conta.contaObjetivo']}></td>
+										<td data-value={el.date}>{new Date(el.date).toLocaleDateString('pt-BR')}</td>
+										<td data-value={el.descricao}>
+											{el.descricao.substring(0, 43) + length}
+											<Badge pill className='ms-2'>
+												{el.tag_nome}
+											</Badge>
+										</td>
+										<td className='d-none' data-value={el.id_tag}></td>
+										<td data-value={el['categoria.id_categoria']}>{<RoundIcon className={'sm-icon'} bgColor={el['categoria.cor']} icon={el['categoria.icone']} />}{el['categoria.nome']}</td>
+										{el['conta.contaObjetivo'] ? (
+											<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el.cor} icon={el['categoria.icone']} />}{el.titulo}</td>
+										) : (
+											<td data-value={el['conta.id_conta']}>{<RoundIcon className={'sm-icon'} bgColor={el['conta.instituicao.cor']} icon={el['conta.instituicao.icone']} />}{el['conta.id_cartao'] ? 'Cartão ' : ''}{el['conta.instituicao.nome']}</td>
+										)}
+										<td className={el.valor < 0 ? 'text-danger' : 'text-success'} data-value={el.valor}>{currency_formatter(el.valor)}</td>
+									</tr>
+								)
+							})
+						) : (
+							<tr>
+								<td>Sem Registros</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						)}
 					</tbody>
 				</Table>
 			</Card>

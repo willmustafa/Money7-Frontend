@@ -21,17 +21,21 @@ const ObjetivosCard = () => {
     
 	return (
 		<Card title={'Objetivos'}>
-			{dados.map((item) => {
-				return <ProgressIconTitle
-					title={item.titulo}
-					smallTitle={item.categoria.nome}
-					icon={item.categoria.icone}
-					bgColor={item.cor}
-					value={item.saldo_atual}
-					max={item.valor_total}
-					key={item.id_objetivo}
-				/>
-			})}
+			{dados.length ? (
+				dados.map((item) => {
+					return <ProgressIconTitle
+						title={item.titulo}
+						smallTitle={item.categoria.nome}
+						icon={item.categoria.icone}
+						bgColor={item.cor}
+						value={item.saldo_atual}
+						max={item.valor_total}
+						key={item.id_objetivo}
+					/>
+				})
+			) : (
+				<p>Sem Registros</p>
+			)}
 		</Card>
 	)
 }

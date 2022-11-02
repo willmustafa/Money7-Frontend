@@ -6,7 +6,11 @@ import Doughnut from '../../components/Charts/Doughnut/Doughnut'
 const DoughnutCard = props => {
 	return (
 		<Card {...props}>
-			<Doughnut data={props.data} label={props.label} dataLabel={props.dataLabel} />
+			{props.data.length ? (
+				<Doughnut data={props.data} label={props.label} dataLabel={props.dataLabel} />
+			) : (
+				<p>Sem Registros</p>
+			)}
 		</Card>
 	)
 }

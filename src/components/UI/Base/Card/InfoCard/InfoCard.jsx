@@ -12,11 +12,14 @@ const InfoCard = props => {
 			<InfoCardHeader 
 				{...props}
 			/>
-			<InfoCardFooter
-				isExpense={props.isExpense}
-				value={props.percentageValue}
-				text={props.text}
-			/>
+			{props.showFooter ? (
+				<InfoCardFooter
+					isExpense={props.isExpense}
+					value={props.percentageValue}
+					text={props.text}
+				/>
+			): ''}
+
 		</Card>
 	)
 }
@@ -35,13 +38,15 @@ InfoCard.propTypes = {
 	/** Text to be displayed */
 	text: PropTypes.string,
 	isExpense: PropTypes.bool,
-	predicted: PropTypes.number
+	predicted: PropTypes.number,
+	showFooter: PropTypes.bool
 }
 
 InfoCard.defaultProps = {
 	value: 0,
 	percentageValue: 0,
 	isExpense: false,
+	showFooter: true
 }
 
 export default InfoCard

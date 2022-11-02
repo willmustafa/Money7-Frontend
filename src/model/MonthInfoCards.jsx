@@ -77,6 +77,7 @@ const MonthInfoCards = () => {
 							value={dados?.saldo_total} 
 							bgColor={'bg-info'} 
 							icon={'sack-dollar'}
+							showFooter={false}
 						/>
 					</Col>
 				</Row>
